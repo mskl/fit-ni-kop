@@ -1,6 +1,7 @@
 from typing import List, Union, Optional
 import numpy as np
 
+from .exceptions import StrictSolutionFound
 from .item import Item
 
 
@@ -11,8 +12,12 @@ class Bag:
         self.min_cost = min_cost
         self.items = items
 
+        # kind of bag problem
         self.best_solution = np.zeros(self.size)
-        self.best_cost = 0
+        self.optimizations = None
+        self.best_cost = None
+        self.opcount = None
+        self.strict = None
 
     @property
     def size(self):
@@ -37,35 +42,47 @@ class Bag:
         weight = sum(i.weight for i in selection)
         return cost, weight
 
-    def solve(self) -> None:
+    def solve(self, optimizations=None, strict=False) -> bool:
         self.best_cost = 0
-        self._solve(index=0, proposal=np.zeros(self.size))
+        self.opcount = 0
+        self.optimizations = optimizations or set()
+        try:
+            self._solve(index=0, proposal=np.zeros(self.size), strict=strict)
+        except StrictSolutionFound:
+            return True
 
-    def _solve(self, index: int, proposal: np.ndarray) -> None:
+        if self.best_cost > self.min_cost:
+            return True
+        return False
+
+    def _solve(self, index: int, proposal: np.ndarray, strict: bool) -> None:
+        self.opcount = self.opcount + 1
+
         cost, weight = self.evaluate(proposal[:index+1])
         if (weight <= self.capacity) and (cost > self.best_cost):
             self.best_cost = cost
             self.best_solution = np.zeros(self.size)
             self.best_solution[:index + 1] = proposal[:index + 1]
 
+        # End of recursion
         if index >= self.size:
-            return  # end of recursion
+            return
 
-        # Optimizations start here:
-        if weight > self.capacity:
-            return  # already too heavy
+        # Bag is already too heavy too heavy
+        if "weight" in self.optimizations and weight > self.capacity:
+            return
 
-        residual_items = self.items[index + 1:]
-        if residual_items:
-            residual_cost = sum(i.cost for i in residual_items)
-            if cost + residual_cost < self.best_cost:  # or mincost
-                return
+        if "residuals" in self.optimizations:
+            if residual_items := self.items[index:]:
+                residual_cost = sum(i.cost for i in residual_items)
+                if cost + residual_cost < self.best_cost:
+                    return
 
-        # strict mode would do
-        # if self.best_cost >= self.min_cost:
-        #     return
+        # Strict mode would do
+        if self.strict and cost >= self.min_cost:
+            raise StrictSolutionFound
 
         proposal[index] = True
-        self._solve(index+1, proposal)
+        self._solve(index+1, proposal, strict)
         proposal[index] = False
-        self._solve(index+1, proposal)
+        self._solve(index+1, proposal, strict)

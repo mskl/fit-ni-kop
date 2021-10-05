@@ -1,0 +1,2 @@
+class StrictSolutionFound(Exception):
+    pass

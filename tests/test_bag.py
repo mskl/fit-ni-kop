@@ -31,7 +31,10 @@ def load_bag_data(x_file, y_file):
 
 @pytest.mark.parametrize(
     "bag_def, bag_sol",
-    load_bag_data("data/NR/NR4_inst.dat", "data/NR/NK4_sol.dat"),
+    [
+
+        *load_bag_data("data/NR/NR4_inst.dat", "data/NR/NK4_sol.dat"),
+    ]
     # [
     #     (
     #         '-1 4 46 324 36 3 43 1129 202 94 149 2084\n',
