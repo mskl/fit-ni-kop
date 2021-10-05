@@ -1,10 +1,6 @@
-import os
-from pathlib import Path
-
 import pytest
 from bagsolver.bag import Bag
-
-THIS_DIR = Path(__file__).parent
+from bagsolver.utils import load_bag_data
 
 
 @pytest.mark.parametrize(
@@ -21,33 +17,19 @@ def test_bag_load(rawline, expected):
     assert bag.capacity == expected.capacity
 
 
-def load_bag_data(x_file, y_file):
-    x_path = os.path.join(THIS_DIR, x_file)
-    y_path = os.path.join(THIS_DIR, y_file)
-
-    with open(x_path) as x, open(y_path) as y:
-        return tuple(zip(x.readlines(), y.readlines()))
-
-
-@pytest.mark.parametrize(
-    "bag_def, bag_sol",
-    [
-
-        *load_bag_data("data/NR/NR4_inst.dat", "data/NR/NK4_sol.dat"),
-    ]
-    # [
-    #     (
-    #         '-1 4 46 324 36 3 43 1129 202 94 149 2084\n',
-    #         '1 4 1129 0 1 0 0 \n'
-    #     ),
-    # ]
-)
-def test_bag_solve(bag_def, bag_sol):
+@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NR/NR4_inst.dat", "data/NR/NK4_sol.dat")[:50])
+@pytest.mark.parametrize("strict", [True, False])
+@pytest.mark.parametrize("optimizations", [None, {"weight"}, {"weight", "residuals"}])
+def test_bag_solve(bag_def, bag_sol, strict, optimizations):
     bag = Bag.from_line(bag_def)
-    bag.solve()
+    res = bag.solve(optimizations=optimizations, strict=strict)
 
     parsed = [int(v) for v in bag_sol.strip().split(" ")]
     iid, count, target_cost, *target_items = parsed
     assert bag.iid == -1 * iid
-    assert tuple(int(i) for i in bag.best_solution) == tuple(i for i in target_items)
-    assert bag.best_cost == target_cost
+    if not strict:
+        assert tuple(int(i) for i in bag.best_solution) == tuple(i for i in target_items)
+        assert bag.best_cost == target_cost
+    else:
+        should_pass = bag.min_cost < target_cost
+        assert res == should_pass

@@ -57,7 +57,6 @@ class Bag:
 
     def _solve(self, index: int, proposal: np.ndarray, strict: bool) -> None:
         self.opcount = self.opcount + 1
-
         cost, weight = self.evaluate(proposal[:index+1])
         if (weight <= self.capacity) and (cost > self.best_cost):
             self.best_cost = cost
