@@ -11,17 +11,15 @@ class Bag:
         self.capacity = capacity
         self.min_cost = min_cost
         self.items = items
+        self.size = len(self.items)
 
         # kind of bag problem
         self.best_solution = np.zeros(self.size)
         self.optimizations = None
         self.best_cost = None
+        self.proposal = None
         self.opcount = None
         self.strict = None
-
-    @property
-    def size(self):
-        return len(self.items)
 
     @classmethod
     def from_line(cls, line: str) -> "Bag":
@@ -42,12 +40,14 @@ class Bag:
         weight = sum(i.weight for i in selection)
         return cost, weight
 
-    def solve(self, optimizations=None, strict=False) -> bool:
+    def solve(self, optimizations=None, strict: bool = False) -> bool:
         self.best_cost = 0
         self.opcount = 0
+        self.proposal = np.zeros(self.size)
+        self.strict = strict
         self.optimizations = optimizations or set()
         try:
-            self._solve(index=0, proposal=np.zeros(self.size), strict=strict)
+            self._solve(0, 0, 0)
         except StrictSolutionFound:
             return True
 
@@ -55,21 +55,24 @@ class Bag:
             return True
         return False
 
-    def _solve(self, index: int, proposal: np.ndarray, strict: bool) -> None:
+    def _solve(self, index: int, tweight: int, tcost: int) -> None:
         self.opcount = self.opcount + 1
-        cost, weight = self.evaluate(proposal[:index+1])
-        if (weight <= self.capacity) and (cost > self.best_cost):
-            self.best_cost = cost
-            self.best_solution = np.zeros(self.size)
-            self.best_solution[:index + 1] = proposal[:index + 1]
 
-        # End of recursion
-        if index >= self.size:
-            return
+        weight = tweight + self.items[index-1].weight * self.proposal[index-1]
+        cost = tcost + self.items[index-1].cost * self.proposal[index-1]
 
-        # Bag is already too heavy too heavy
         if "weight" in self.optimizations and weight > self.capacity:
             return
+
+        weight_passed = weight <= self.capacity
+
+        if self.strict and (cost >= self.min_cost) and weight_passed:
+            raise StrictSolutionFound
+
+        if weight_passed and cost > self.best_cost:
+            self.best_cost = cost
+            self.best_solution = np.zeros(self.size)
+            self.best_solution[:index + 1] = self.proposal[:index + 1]
 
         if "residuals" in self.optimizations:
             if residual_items := self.items[index:]:
@@ -77,11 +80,11 @@ class Bag:
                 if cost + residual_cost < self.best_cost:
                     return
 
-        # Strict mode would do
-        if self.strict and cost >= self.min_cost:
-            raise StrictSolutionFound
+        # End of recursion
+        if index >= self.size:
+            return
 
-        proposal[index] = True
-        self._solve(index+1, proposal, strict)
-        proposal[index] = False
-        self._solve(index+1, proposal, strict)
+        self.proposal[index] = True
+        self._solve(index+1, weight, cost)
+        self.proposal[index] = False
+        self._solve(index+1, weight, cost)
