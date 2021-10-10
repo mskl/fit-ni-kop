@@ -1,0 +1,6 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Implementation}{1}{}%
+\contentsline {section}{\numberline {2}Experiments}{1}{}%
+\contentsline {subsection}{\numberline {2.1}Instance Size}{1}{}%
+\contentsline {subsection}{\numberline {2.2}Histogram}{1}{}%
+\contentsline {section}{\numberline {3}Dataset Comparison}{1}{}%

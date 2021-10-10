@@ -1,0 +1,60 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+
+\setlist[itemize]{leftmargin=1.2in}
+
+
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyvrb} 
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{listings}
+
+\title{Combinatorial Optimization\\Homework 1 – Knapsack Problem}
+\author{Matyáš Skalický\\skalimat@fit.cvut.cz}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\medskip
+
+
+\section{Implementation}
+The brute-force solver of the knapsack problem was implemented using the recursive approach. The solver was implemented in Python. To speed the experiments up, they were ran in parallel to fully utilize the CPU and to make the experiments feasible.
+
+The task was to implement the decision version of the knapsack problem. The brute-force search was recursively enumerating all possible solutions unless a feasible solution was found, or the solution space exhausted.
+
+An optimized branch\&bound solver was also implemented and compared to the naïve brute-force approach. It utilizes several speedups:
+
+\begin{enumerate}[leftmargin=1in]
+	\item[\emph{exceeded weight}] Weight of the bag already exceeds the weight capacity of the bag. Do not recurse further.
+	\item[\emph{residuals bestcost}] Sum the cost of remaining items that can be added into the bag. Do not recurse further \lstinline{if (cost + residual) < bestcost} where \emph{bestcost} is the best achieved solution so-far.
+	\item[\emph{residuals mincost}] Sum the cost of remaining items that can be added into the bag. Do not recurse further \lstinline{if (cost + residual) < mincost} where \emph{mincost} is the decision version requirement.
+\end{enumerate}
+
+
+\section{Experiments}
+\subsection{Instance Size}
+The model trained with batches of 2048 samples on all of the (110k) provided data usually reached best validation scores around 30 epochs. A Nadam (Adam with Nesterov momentum) optimizer was used. 
+
+\subsection{Histogram}
+
+\section{Dataset Comparison}
+
+
+%\begin{figure}[!htb]
+%	\centering
+%  	\includegraphics[height=0.95\textheight]{images/LSTM.pdf}
+%	\caption{Structure of the proposed LSTM model}
+%	\label{model_diagram}
+%\end{figure}
+%\clearpage
+
+\end{document}
