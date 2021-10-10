@@ -61,10 +61,10 @@ class Bag:
         weight = tweight + self.items[index-1].weight * self.proposal[index-1]
         cost = tcost + self.items[index-1].cost * self.proposal[index-1]
 
-        if "weight" in self.optimizations and weight > self.capacity:
-            return
-
         weight_passed = weight <= self.capacity
+
+        if "weight" in self.optimizations and not weight_passed:
+            return
 
         if self.strict and (cost >= self.min_cost) and weight_passed:
             raise StrictSolutionFound
@@ -77,7 +77,9 @@ class Bag:
         if "residuals" in self.optimizations:
             if residual_items := self.items[index:]:
                 residual_cost = sum(i.cost for i in residual_items)
-                if cost + residual_cost < self.best_cost:
+                if (cost + residual_cost) < self.best_cost:
+                    return
+                if (cost + residual_cost < self.min_cost) and self.strict:
                     return
 
         # End of recursion

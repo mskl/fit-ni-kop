@@ -8,7 +8,7 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed, ProcessPoolExecutor
 
 from bagsolver.bag import Bag
-from bagsolver.utils import load_bag_data
+
 
 def solve_line(line, optimizations, size, itype):
     bag = Bag.from_line(line)
@@ -17,9 +17,10 @@ def solve_line(line, optimizations, size, itype):
     elapsed = time.perf_counter() - start_time
     return bag.opcount, elapsed, optimizations, size, itype
 
+
 sizes = [4, 10, 15, 20, 22, 25] # 27, 30, 32, 35, 37
 
-subsample = 100
+subsample = 250
 
 if __name__ == '__main__':
     results = []
@@ -31,9 +32,10 @@ if __name__ == '__main__':
             with open(filepath) as x:
                 problems = x.readlines()
 
-            random.shuffle(problems)
+            # shuffle consistently
+            random.Random(4).shuffle(problems)
 
-            for optimizations in [set(), {"residuals"}, {"weight"}, {"residuals", "weight"}]:
+            for optimizations in [set(), {"residuals", "weight"}]:
                 for line in problems[:subsample]:
                     tasks.append((line, optimizations, size, itype))
 
@@ -41,7 +43,7 @@ if __name__ == '__main__':
 
     futures = []
     with tqdm(total=len(tasks)) as pbar:
-        with ProcessPoolExecutor(max_workers=8) as executor:
+        with ProcessPoolExecutor(max_workers=5) as executor:
             for task in tasks:
                 futures.append(executor.submit(solve_line, *task))
                 
