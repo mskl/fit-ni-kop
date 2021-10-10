@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  10 OCT 2021 20:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  10 OCT 2021 21:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -330,7 +330,7 @@ Here is how much of TeX's memory you used:
  23864 multiletter control sequences out of 15000+600000
  408031 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,7n,77p,311b,1355s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,7n,77p,343b,1355s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmbx12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/c
@@ -339,7 +339,7 @@ m/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm
 mr12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 17.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
 0.pfb>
-Output written on report.pdf (1 page, 88385 bytes).
+Output written on report.pdf (1 page, 88669 bytes).
 PDF statistics:
  36 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream

@@ -27,9 +27,9 @@
 
 
 \section{Implementation}
-The brute-force solver of the knapsack problem was implemented using the recursive approach. The solver was implemented in Python. To speed the experiments up, they were ran in parallel to fully utilize the CPU and to make the experiments feasible.
+The brute-force solver of the knapsack problem was implemented using the recursive approach. The solver was implemented in Python. To speed the experiments up, they were ran in parallel to fully utilize the CPU and to make the experiments feasible. The datasets were subsampled from 500 to 250 samples to speed up the experiments.
 
-The task was to implement the decision version of the knapsack problem. The brute-force search was recursively enumerating all possible solutions unless a feasible solution was found, or the solution space exhausted.
+The naive brute-force search recursively enumerates all possible solutions until a feasible solution is found, or the solution space exhausted.
 
 An optimized branch\&bound solver was also implemented and compared to the naïve brute-force approach. It utilizes several speedups:
 

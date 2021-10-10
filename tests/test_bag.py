@@ -17,7 +17,7 @@ def test_bag_load(rawline, expected):
     assert bag.capacity == expected.capacity
 
 
-@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NR/NR4_inst.dat", "data/NR/NK4_sol.dat")[:20])
+@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NR/NR10_inst.dat", "data/NR/NK10_sol.dat")[:100])
 @pytest.mark.parametrize("strict", [True, False])
 @pytest.mark.parametrize("optimizations", [None, {"residuals"}, {"weight"}, {"weight", "residuals"}])
 def test_bag_solve(bag_def, bag_sol, strict, optimizations):
