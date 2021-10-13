@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  10 OCT 2021 21:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  13 OCT 2021 22:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -322,27 +322,48 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
 [1
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./report.aux) ) 
+<size_vs_performed_boxplot.png, id=13, 1156.32pt x 578.16pt>
+File: size_vs_performed_boxplot.png Graphic file (type png)
+<use size_vs_performed_boxplot.png>
+Package pdftex.def Info: size_vs_performed_boxplot.png  used on input line 50.
+(pdftex.def)             Requested size: 452.9679pt x 226.47838pt.
+<size_vs_ops_lineplot.png, id=15, 1156.32pt x 578.16pt>
+File: size_vs_ops_lineplot.png Graphic file (type png)
+<use size_vs_ops_lineplot.png>
+Package pdftex.def Info: size_vs_ops_lineplot.png  used on input line 59.
+(pdftex.def)             Requested size: 452.9679pt x 226.47838pt.
+
+[2
+
+ <./size_vs_performed_boxplot.png> <./size_vs_ops_lineplot.png>]
+<size_20_hist.png, id=21, 1156.32pt x 578.16pt>
+File: size_20_hist.png Graphic file (type png)
+<use size_20_hist.png>
+Package pdftex.def Info: size_20_hist.png  used on input line 71.
+(pdftex.def)             Requested size: 452.9679pt x 226.47838pt.
+ [3
+
+ <./size_20_hist.png>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 6429 strings out of 478994
- 99054 string characters out of 5858184
- 417572 words of memory out of 5000000
- 23864 multiletter control sequences out of 15000+600000
+ 6457 strings out of 478994
+ 99696 string characters out of 5858184
+ 416596 words of memory out of 5000000
+ 23888 multiletter control sequences out of 15000+600000
  408031 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,7n,77p,343b,1355s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmbx12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-17.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
-0.pfb>
-Output written on report.pdf (1 page, 88669 bytes).
+ 69i,7n,77p,386b,1355s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2021/texmf-dist/font
+s/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2021/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmti10.pfb>
+Output written on report.pdf (3 pages, 201016 bytes).
 PDF statistics:
- 36 PDF objects out of 1000 (max. 8388607)
- 25 compressed objects within 1 object stream
+ 49 PDF objects out of 1000 (max. 8388607)
+ 30 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
