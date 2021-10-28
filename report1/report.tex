@@ -34,8 +34,7 @@ The naive brute-force search recursively enumerates all possible solutions until
 An optimized branch\&bound solver was also implemented and compared to the naïve brute-force approach. It utilizes several speedups:
 
 \begin{enumerate}[leftmargin=1in]
-	\item[\emph{exceeded weight}] Weight of the bag already exceeds the weight capacity of the bag. Do not recurse further.
-	\item[\emph{residuals bestcost}] Sum the cost of remaining items that can be added into the bag. Do not recurse further \lstinline{if (cost + residual) < bestcost} where \emph{bestcost} is the best achieved solution so-far.
+	\item[\emph{exceeded weight}] Weight of the bag already exceeds the capacity of the bag. Do not recurse further.
 	\item[\emph{residuals mincost}] Sum the cost of remaining items that can be added into the bag. Do not recurse further \lstinline{if (cost + residual) < mincost} where \emph{mincost} is the decision version requirement.
 \end{enumerate}
 
@@ -52,7 +51,7 @@ First, let's compare the algorithms on a mixed dataset (half from the NR and hal
 	\label{size_vs_ops_boxplot}
 \end{figure}
 
-Let's break down the number of operations by the dataset. Figure \ref{size_vs_ops_lineplot} compares the required number of operations by dataset and also operations. We can see, that when branch\&bound is disabled, the complexity is the same for both datasets. When we enable the branch\&bound, the speedup is most notable for the \emph{NR} dataset.
+Let's break down the number of operations by the dataset. Figure \ref{size_vs_ops_lineplot} compares the required number of operations by dataset and also by solver. We can see, that when branch\&bound is disabled, the complexity is the same for both datasets. When we enable the branch\&bound, the speedup is most notable for the \emph{NR} dataset.
 
 \begin{figure}[!htb]
 	\centering
@@ -79,6 +78,6 @@ The \emph{ZR} dataset is most-likely designed in a way to combat the usage of br
 
 When the optimizations were disabled, the computational cost was almost identical for the both methods (best seen on Figure \ref{size_20_hist}). When using the branch\&bound technique, there was a significant difference between the provided datasets as the \emph{ZR} dataset forced the solver to often explore all possible solutions.
 
-Since we are using a desision version of the knapsack problem, oftentimes we need to explore all the possible solutions before saying that there isn't a solution. This is also clearly visible on the right side of the Figure \ref{size_20_hist}.
+Since we are using a decision version of the knapsack problem, without branch\&bound we need to explore all the possible solutions before saying that there isn't one. This is clearly visible on the right side of the Figure \ref{size_20_hist}.
 
 \end{document}

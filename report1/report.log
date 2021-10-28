@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  13 OCT 2021 22:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  14 OCT 2021 23:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -325,12 +325,12 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
 <size_vs_performed_boxplot.png, id=13, 1156.32pt x 578.16pt>
 File: size_vs_performed_boxplot.png Graphic file (type png)
 <use size_vs_performed_boxplot.png>
-Package pdftex.def Info: size_vs_performed_boxplot.png  used on input line 50.
+Package pdftex.def Info: size_vs_performed_boxplot.png  used on input line 49.
 (pdftex.def)             Requested size: 452.9679pt x 226.47838pt.
 <size_vs_ops_lineplot.png, id=15, 1156.32pt x 578.16pt>
 File: size_vs_ops_lineplot.png Graphic file (type png)
 <use size_vs_ops_lineplot.png>
-Package pdftex.def Info: size_vs_ops_lineplot.png  used on input line 59.
+Package pdftex.def Info: size_vs_ops_lineplot.png  used on input line 58.
 (pdftex.def)             Requested size: 452.9679pt x 226.47838pt.
 
 [2
@@ -339,7 +339,7 @@ Package pdftex.def Info: size_vs_ops_lineplot.png  used on input line 59.
 <size_20_hist.png, id=21, 1156.32pt x 578.16pt>
 File: size_20_hist.png Graphic file (type png)
 <use size_20_hist.png>
-Package pdftex.def Info: size_20_hist.png  used on input line 71.
+Package pdftex.def Info: size_20_hist.png  used on input line 70.
 (pdftex.def)             Requested size: 452.9679pt x 226.47838pt.
  [3
 
@@ -347,11 +347,11 @@ Package pdftex.def Info: size_20_hist.png  used on input line 71.
 Here is how much of TeX's memory you used:
  6457 strings out of 478994
  99696 string characters out of 5858184
- 416596 words of memory out of 5000000
+ 414596 words of memory out of 5000000
  23888 multiletter control sequences out of 15000+600000
  408031 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,7n,77p,386b,1355s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,7n,77p,385b,1355s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2021/texmf-dist/font
 s/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2021/texmf-dist/fonts/
@@ -360,7 +360,7 @@ ype1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti10.pfb>
-Output written on report.pdf (3 pages, 201016 bytes).
+Output written on report.pdf (3 pages, 200709 bytes).
 PDF statistics:
  49 PDF objects out of 1000 (max. 8388607)
  30 compressed objects within 1 object stream
