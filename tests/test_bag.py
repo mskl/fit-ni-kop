@@ -17,7 +17,7 @@ def test_bag_load(rawline, expected):
     assert bag.capacity == expected.capacity
 
 
-@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NR/NR10_inst.dat", "data/NR/NK10_sol.dat")[:100])
+@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:100])
 @pytest.mark.parametrize("optimizations", [None, {"residuals"}, {"weight"}, {"weight", "residuals"}])
 def test_bag_solve(bag_def, bag_sol, optimizations):
     bag = Bag.from_line(bag_def)
@@ -25,6 +25,6 @@ def test_bag_solve(bag_def, bag_sol, optimizations):
 
     parsed = [int(v) for v in bag_sol.strip().split(" ")]
     iid, count, target_cost, *target_items = parsed
-    assert bag.iid == -1 * iid
+    assert bag.iid == iid
     assert tuple(int(i) for i in bag.best_solution) == tuple(i for i in target_items)
-    assert bag.best_cost == target_cost
+    assert res == target_cost
