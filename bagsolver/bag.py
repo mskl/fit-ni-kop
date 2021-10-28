@@ -15,6 +15,7 @@ class Bag:
         self.best_solution = np.zeros(self.size)
         self.optimizations = None
         self.best_cost = None
+        self.memofield = None
         self.proposal = None
         self.opcount = None
 
@@ -24,6 +25,7 @@ class Bag:
         self.optimizations = None
         self.proposal = np.zeros(self.size)
         self.best_solution = np.zeros(self.size)
+        self.memofield = np.zeros_like((self.size, self.capacity))
 
     @classmethod
     def from_line(cls, line: str) -> "Bag":
@@ -47,6 +49,38 @@ class Bag:
         cost = sum(i.cost for i in selection)
         weight = sum(i.weight for i in selection)
         return cost, weight
+
+    def solve_dynamic(self) -> int:
+        self.reset()
+        #total_cost = sum([_.cost for _ in self.items])
+        self.memofield = np.full((self.size+1, self.capacity+1), -1)
+        return self._solve_dynamic(self.size - 1, self.capacity)
+
+    def _solve_dynamic(self, index: int, capacity: int) -> int:
+        if (memres := self.memofield[index, capacity]) != -1:
+            return memres
+
+        self.opcount += 1
+
+        if index < 0 or capacity <= 0:
+            return 0
+
+        item = self.items[index]
+
+        if item.weight > capacity:
+            return self._solve_dynamic(index-1, capacity)
+
+        item_no = self._solve_dynamic(index-1, capacity)
+        item_yes = item.cost + self._solve_dynamic(index-1, capacity - item.weight)
+
+        return max(item_no, item_yes)
+
+    def solve_ftapas(self, epsilon: float):
+        maxcost = max(self.items, key=lambda x: x.cost).cost
+
+        k = (epsilon * maxcost) / self.size
+
+
 
     def solve_greedy(self, redux=False) -> int:
         self.reset()

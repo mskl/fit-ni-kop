@@ -40,3 +40,13 @@ def test_bag_solve_greedy(bag_def, bag_sol, redux):
     iid, count, target_cost, *target_items = parsed
     assert bag.iid == iid
 
+
+@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:100])
+def test_bag_dynamic(bag_def, bag_sol):
+    bag = Bag.from_line(bag_def)
+    res = bag.solve_dynamic()
+
+    parsed = [int(v) for v in bag_sol.strip().split(" ")]
+    iid, count, target_cost, *target_items = parsed
+    assert bag.iid == iid
+    assert res == target_cost
