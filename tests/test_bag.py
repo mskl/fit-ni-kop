@@ -18,18 +18,13 @@ def test_bag_load(rawline, expected):
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NR/NR10_inst.dat", "data/NR/NK10_sol.dat")[:100])
-@pytest.mark.parametrize("strict", [True, False])
 @pytest.mark.parametrize("optimizations", [None, {"residuals"}, {"weight"}, {"weight", "residuals"}])
-def test_bag_solve(bag_def, bag_sol, strict, optimizations):
+def test_bag_solve(bag_def, bag_sol, optimizations):
     bag = Bag.from_line(bag_def)
-    res = bag.solve(optimizations=optimizations, strict=strict)
+    res = bag.solve_bb(optimizations=optimizations)
 
     parsed = [int(v) for v in bag_sol.strip().split(" ")]
     iid, count, target_cost, *target_items = parsed
     assert bag.iid == -1 * iid
-    if not strict:
-        assert tuple(int(i) for i in bag.best_solution) == tuple(i for i in target_items)
-        assert bag.best_cost == target_cost
-    else:
-        should_pass = bag.min_cost <= target_cost
-        assert res == should_pass
+    assert tuple(int(i) for i in bag.best_solution) == tuple(i for i in target_items)
+    assert bag.best_cost == target_cost

@@ -1,7 +1,6 @@
 from typing import List, Union, Optional
 import numpy as np
 
-from .exceptions import StrictSolutionFound
 from .item import Item
 
 
@@ -19,7 +18,6 @@ class Bag:
         self.best_cost = None
         self.proposal = None
         self.opcount = None
-        self.strict = None
 
     @classmethod
     def from_line(cls, line: str) -> "Bag":
@@ -40,22 +38,16 @@ class Bag:
         weight = sum(i.weight for i in selection)
         return cost, weight
 
-    def solve(self, optimizations=None, strict: bool = False) -> bool:
+    def solve_bb(self, optimizations=None) -> int:
+        """Solve using branch&bound approach. If optimizations are None, a brute-force will be used."""
         self.best_cost = 0
         self.opcount = 0
         self.proposal = np.zeros(self.size)
-        self.strict = strict
         self.optimizations = optimizations or set()
-        try:
-            self._solve(0, 0, 0)
-        except StrictSolutionFound:
-            return True
+        self._solve_bb(0, 0, 0)
+        return self.best_cost
 
-        if self.best_cost > self.min_cost:
-            return True
-        return False
-
-    def _solve(self, index: int, tweight: int, tcost: int) -> None:
+    def _solve_bb(self, index: int, tweight: int, tcost: int) -> None:
         self.opcount = self.opcount + 1
 
         weight = tweight + self.items[index-1].weight * self.proposal[index-1]
@@ -65,9 +57,6 @@ class Bag:
 
         if "weight" in self.optimizations and not weight_passed:
             return
-
-        if self.strict and (cost >= self.min_cost) and weight_passed:
-            raise StrictSolutionFound
 
         if weight_passed and cost > self.best_cost:
             self.best_cost = cost
@@ -79,14 +68,12 @@ class Bag:
                 residual_cost = sum(i.cost for i in residual_items)
                 if (cost + residual_cost) < self.best_cost:
                     return
-                if (cost + residual_cost < self.min_cost) and self.strict:
-                    return
 
         # End of recursion
         if index >= self.size:
             return
 
         self.proposal[index] = True
-        self._solve(index+1, weight, cost)
+        self._solve_bb(index + 1, weight, cost)
         self.proposal[index] = False
-        self._solve(index+1, weight, cost)
+        self._solve_bb(index + 1, weight, cost)
