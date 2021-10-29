@@ -13,9 +13,10 @@ RUNS = {
     "greedy_redux": ("solve_greedy", {"redux": True}),
     "dynamic_cost": ("solve_dynamic_cost", {}),
     "dynamic_weight": ("solve_dynamic_weight", {}),
-    "solve_ftapas_03": ("solve_ftapas", {"epsilon": 0.3}),
-    "solve_ftapas_05": ("solve_ftapas", {"epsilon": 0.5}),
-    "solve_ftapas_07": ("solve_ftapas", {"epsilon": 0.7}),
+    "solve_ftapas_15": ("solve_ftapas", {"epsilon": 0.15}),
+    "solve_ftapas_30": ("solve_ftapas", {"epsilon": 0.3}),
+    "solve_ftapas_50": ("solve_ftapas", {"epsilon": 0.5}),
+    "solve_ftapas_70": ("solve_ftapas", {"epsilon": 0.7}),
 }
 
 
@@ -36,7 +37,7 @@ def run(runs: dict, workers: int = 5, executor_class: Callable=ProcessPoolExecut
     tasks, futures, records = [], [], []
 
     for dataset in ["NK", "ZKC", "ZKW"]:
-        for size in [4, 10, 15, 20, 22, 25, 27, 30]:
+        for size in [4, 10, 15, 20, 22, 25, 27]:
             data = load_bag_data(
                 f"data/{dataset}/{dataset}{size}_inst.dat",
                 f"data/{dataset}/{dataset}{size}_sol.dat"
