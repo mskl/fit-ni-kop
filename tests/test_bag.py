@@ -17,7 +17,11 @@ def test_bag_load(rawline, expected):
     assert bag.capacity == expected.capacity
 
 
-@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:100])
+def get_dataset():
+    return load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:100]
+
+
+@pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
 @pytest.mark.parametrize("optimizations", [None, {"residuals"}, {"weight"}, {"weight", "residuals"}])
 def test_bag_solve(bag_def, bag_sol, optimizations):
     bag = Bag.from_line(bag_def)
@@ -30,7 +34,7 @@ def test_bag_solve(bag_def, bag_sol, optimizations):
     assert res == target_cost
 
 
-@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:100])
+@pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
 @pytest.mark.parametrize("redux", [False, True])
 def test_bag_solve_greedy(bag_def, bag_sol, redux):
     bag = Bag.from_line(bag_def)
@@ -41,12 +45,34 @@ def test_bag_solve_greedy(bag_def, bag_sol, redux):
     assert bag.iid == iid
 
 
-@pytest.mark.parametrize("bag_def, bag_sol", load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:100])
-def test_bag_dynamic(bag_def, bag_sol):
+@pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
+def test_bag_dynamic_cost(bag_def, bag_sol):
     bag = Bag.from_line(bag_def)
-    res = bag.solve_dynamic()
+    res = bag.solve_dynamic_cost()
 
     parsed = [int(v) for v in bag_sol.strip().split(" ")]
     iid, count, target_cost, *target_items = parsed
-    assert bag.iid == iid
     assert res == target_cost
+    assert bag.iid == iid
+
+
+@pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
+def test_bag_dynamic_weight(bag_def, bag_sol):
+    bag = Bag.from_line(bag_def)
+    res = bag.solve_dynamic_weight()
+
+    parsed = [int(v) for v in bag_sol.strip().split(" ")]
+    iid, count, target_cost, *target_items = parsed
+    assert res == target_cost
+    assert bag.iid == iid
+
+
+@pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
+def test_bag_ftapas(bag_def, bag_sol):
+    bag = Bag.from_line(bag_def)
+    res = bag.solve_ftapas(2)
+
+    parsed = [int(v) for v in bag_sol.strip().split(" ")]
+    iid, count, target_cost, *target_items = parsed
+    assert res == target_cost
+    assert bag.iid == iid
