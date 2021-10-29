@@ -1,11 +1,11 @@
 from typing import List, Union, Optional, Iterable
+from functools import lru_cache
 import numpy as np
 import math
 import copy
 
 from .item import Item
 
-from functools import lru_cache
 
 
 class Bag:

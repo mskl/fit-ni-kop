@@ -1,7 +1,7 @@
 from typing import Callable
 from bagsolver.bag import Bag
 from bagsolver.utils import load_bag_data, parse_solution
-from concurrent.futures import ThreadPoolExecutor, as_completed, ProcessPoolExecutor
+from concurrent.futures import as_completed, ProcessPoolExecutor
 from tqdm import tqdm
 import time
 import pandas as pd
@@ -32,16 +32,17 @@ def solve_line(bagdef, bagsol, dataset, size, name, params, key):
     return dataset, size, key, elapsed, delta
 
 
-def run(runs: dict, workers: int = 5, executor_class: Callable=ProcessPoolExecutor, subsample: int = -1) -> pd.DataFrame:
+def run(runs: dict, workers: int = 5, executor_class: Callable=ProcessPoolExecutor, subsample: int = None) -> pd.DataFrame:
     tasks, futures, records = [], [], []
 
     for dataset in ["NK", "ZKC", "ZKW"]:
-        for size in [4, 10, 15, 20, 22, 25]:
+        for size in [4, 10, 15, 20, 22, 25, 27, 30]:
             data = load_bag_data(
                 f"data/{dataset}/{dataset}{size}_inst.dat",
                 f"data/{dataset}/{dataset}{size}_sol.dat"
             )
-            for bagdef, bagsol in data[:subsample]:
+            select_data = data[:subsample] if subsample else data
+            for bagdef, bagsol in select_data:
                 for key, (name, params) in runs.items():
                     tasks.append((bagdef, bagsol, dataset, size, name, params, key))
 
@@ -63,7 +64,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Solve experiment 2.")
     parser.add_argument("-w", "--workers", type=int, default=7)
-    parser.add_argument("-s", "--subsample", type=int, default=-1)
+    parser.add_argument("-s", "--subsample", type=int, default=None)
     parser.add_argument("-n", "--name", type=str, default="results2.csv")
 
     args = parser.parse_args()
