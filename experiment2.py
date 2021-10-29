@@ -1,4 +1,3 @@
-import sys
 from typing import Callable
 from bagsolver.bag import Bag
 from bagsolver.utils import load_bag_data, parse_solution

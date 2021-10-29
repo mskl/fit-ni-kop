@@ -7,8 +7,6 @@ from .item import Item
 
 from functools import lru_cache
 
-from .utils import timed
-
 
 class Bag:
     def __init__(self, iid: int, capacity: int, min_cost: Union[int, float], items: Optional[List[Item]]):
@@ -168,7 +166,8 @@ class Bag:
             self.best_solution[:index + 1] = self.proposal[:index + 1]
 
         if "residuals" in self.optimizations:
-            if residual_items := self.items[index:]:
+            residual_items = self.items[index:]
+            if residual_items:
                 residual_cost = sum(i.cost for i in residual_items)
                 if (cost + residual_cost) < self.best_cost:
                     return
