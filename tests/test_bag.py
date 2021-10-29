@@ -24,7 +24,7 @@ def get_dataset(subsample=100):
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
 @pytest.mark.parametrize("optimizations", [None, {"residuals"}, {"weight"}, {"weight", "residuals"}])
 def test_bag_solve(bag_def, bag_sol, optimizations):
-    res = Bag.from_line(bag_def).solve_bb(optimizations=optimizations)
+    res = Bag.from_line(bag_def).solve_branch_bound(optimizations=optimizations)
 
     iid, count, target_cost, target_items = parse_solution(bag_sol)
     assert res == target_cost

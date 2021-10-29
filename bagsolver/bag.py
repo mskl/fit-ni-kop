@@ -7,6 +7,8 @@ from .item import Item
 
 from functools import lru_cache
 
+from .utils import timed
+
 
 class Bag:
     def __init__(self, iid: int, capacity: int, min_cost: Union[int, float], items: Optional[List[Item]]):
@@ -108,17 +110,7 @@ class Bag:
 
         return value
 
-    @lru_cache(maxsize=None)
-    def _solve_dynamic_weight(self, index: int, cost: int) -> int:
-        if index < 0:
-            return math.inf if cost > 0 else 0
-        item = self.items[index]
-        s0 = self._solve_dynamic_weight(index - 1, cost)
-        s1 = self._solve_dynamic_weight(index - 1, cost - item.cost) + item.weight
-        return min(s0, s1)
-
     def solve_dynamic_cost(self) -> int:
-        self.initialize()
         return self._solve_dynamic_cost(self.size - 1, self.capacity)
 
     @lru_cache(maxsize=None)
@@ -155,7 +147,7 @@ class Bag:
 
         return items_cost
 
-    def solve_bb(self, optimizations=None) -> int:
+    def solve_branch_bound(self, optimizations={"weight", "residuals"}) -> int:
         """Solve using branch&bound approach. If optimizations are None, a brute-force will be used."""
         self.optimizations = optimizations or set()
         self._solve_bb(0, 0, 0)

@@ -13,7 +13,7 @@ from bagsolver.bag import Bag
 def solve_line(line, optimizations, size, itype):
     bag = Bag.from_line(line)
     start_time = time.perf_counter()
-    bag.solve_bb(optimizations=optimizations, strict=True)
+    bag.solve_branch_bound(optimizations=optimizations, strict=True)
     elapsed = time.perf_counter() - start_time
     return bag.opcount, elapsed, optimizations, size, itype
 
