@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 from bagsolver.bag import Bag
 from bagsolver.utils import load_bag_data
@@ -18,7 +19,7 @@ def test_bag_load(rawline, expected):
 
 
 def get_dataset():
-    return load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:100]
+    return load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:10]
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
@@ -70,7 +71,7 @@ def test_bag_dynamic_weight(bag_def, bag_sol):
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
 def test_bag_ftapas(bag_def, bag_sol):
     bag = Bag.from_line(bag_def)
-    res = bag.solve_ftapas(2)
+    res = bag.solve_ftapas(.3)
 
     parsed = [int(v) for v in bag_sol.strip().split(" ")]
     iid, count, target_cost, *target_items = parsed

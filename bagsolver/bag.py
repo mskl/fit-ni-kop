@@ -1,6 +1,7 @@
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Iterable
 import numpy as np
 import math
+import copy
 
 from .item import Item
 
@@ -20,7 +21,9 @@ class Bag:
         self.best_cost = None
         self.proposal = None
 
-    def reset(self) -> None:
+        self.initialize()
+
+    def initialize(self) -> None:
         self.best_cost = 0
         self.optimizations = None
         self.proposal = np.zeros(self.size)
@@ -43,7 +46,7 @@ class Bag:
         ]
         return cls(iid, capacity, min_cost, parsed_items)
 
-    def evaluate(self, proposal: List[bool]) -> (int, int):
+    def evaluate(self, proposal: Iterable[bool]) -> (int, int):
         selection = [i for (i, p) in zip(self.items, proposal) if p]
         cost = sum(i.cost for i in selection)
         weight = sum(i.weight for i in selection)
@@ -52,28 +55,58 @@ class Bag:
     def solve_ftapas(self, epsilon: float):
         maxcost = max(self.items, key=lambda x: x.cost).cost
         k = (epsilon * maxcost) / self.size
+        items = copy.deepcopy(self.items)
 
         for item in self.items:
-            item.k = k
+            item.cost = math.floor(item.cost / k)
 
-        res = self.solve_dynamic_weight(k)
+        self.solve_dynamic_weight()
 
-        for item in self.items:
-            item.k = 1.0
+        # Recover the saved values on items
+        self.items = items
 
-        return res
+        return self.evaluate(self.best_solution)[0]
 
-    def solve_dynamic_weight(self, k: float = 1.0) -> int:
-        self.reset()
+    def solve_dynamic_weight(self) -> int:
+        total_cost = sum([_.cost for _ in self.items])
+        lookup_table = np.full((self.size, total_cost+1), math.inf)
 
-        # self.total_cost = sum([_.cost for _ in self.items])
-        # self.table = np.full(())
+        lookup_table[0, 0] = 0
+        lookup_table[0, self.items[0].cost] = self.items[0].weight
 
-        for cost in range(self.total_cost, 1, -1):
-            minweight = self._solve_dynamic_weight(self.size - 1, math.floor(cost / k))
-            if cost >= self.best_cost and minweight <= self.capacity:
+        total_rows = lookup_table.shape[1]
+
+        for col, item in enumerate(self.items):
+            if col == 0:
+                continue
+
+            for row in range(total_rows-1):
+                lookup_table[col, row] = lookup_table[col-1, row]
+                if item.cost <= row:
+                    if lookup_table[col-1, row - item.cost] != math.inf:
+                        prev = lookup_table[col-1, row - item.cost] + item.weight
+                        if prev < lookup_table[col, row]:
+                            lookup_table[col, row] = prev
+
+        for cost in reversed(range(total_rows-1)):
+            weight = lookup_table[self.size-1, cost]
+            if weight <= self.capacity and cost > self.best_cost:
                 self.best_cost = cost
-        return self.best_cost
+
+        # Reconstruct back the best solution from table
+        residual = self.best_cost
+        for i in reversed(range(self.size)):
+            if i != 0:
+                if lookup_table[i-1, residual] != lookup_table[i, residual]:
+                    residual -= self.items[i].cost
+                    self.best_solution[i] = 1
+            else:
+                if residual != 0:
+                    self.best_solution[0] = 1
+
+        value, weight = self.evaluate(self.best_solution)
+
+        return value
 
     @lru_cache(maxsize=None)
     def _solve_dynamic_weight(self, index: int, cost: int) -> int:
@@ -85,7 +118,7 @@ class Bag:
         return min(s0, s1)
 
     def solve_dynamic_cost(self) -> int:
-        self.reset()
+        self.initialize()
         return self._solve_dynamic_cost(self.size - 1, self.capacity)
 
     @lru_cache(maxsize=None)
