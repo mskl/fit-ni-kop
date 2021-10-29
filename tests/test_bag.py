@@ -18,7 +18,7 @@ def test_bag_load(rawline, expected):
 
 
 def get_dataset(subsample=100):
-    return load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:subsample]
+    return load_bag_data("data/ZKC/ZKC15_inst.dat", "data/ZKC/ZKC15_sol.dat")[50:subsample]
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())

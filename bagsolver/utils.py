@@ -4,7 +4,12 @@ import time
 
 def load_bag_data(x_file, y_file):
     with open(x_file) as x, open(y_file) as y:
-        return tuple(zip(x.readlines(), y.readlines()))
+        # Deduplicate multiple solutions in y
+        xdict = {line.split(" ")[0]: line for line in x.readlines()}
+        ydict = {line.split(" ")[0]: line for line in y.readlines()}
+        xlines = (v for (k, v) in sorted(xdict.items(), key=lambda x: x[0]))
+        ylines = (v for (k, v) in sorted(ydict.items(), key=lambda x: x[0]))
+        return tuple(zip(xlines, ylines))
 
 
 def parse_solution(bag_sol):
