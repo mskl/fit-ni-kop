@@ -1,0 +1,9 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Implementation}{1}{}%
+\contentsline {subsection}{\numberline {1.1}Exact Methods}{1}{}%
+\contentsline {subsection}{\numberline {1.2}Heuristics}{1}{}%
+\contentsline {section}{\numberline {2}Experiments}{2}{}%
+\contentsline {subsection}{\numberline {2.1}Exact Algorithms}{2}{}%
+\contentsline {subsection}{\numberline {2.2}Greedy Heuristics}{2}{}%
+\contentsline {subsection}{\numberline {2.3}FPTAS Algorithm}{3}{}%
+\contentsline {section}{\numberline {3}Discussion}{3}{}%

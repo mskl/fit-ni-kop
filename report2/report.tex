@@ -1,0 +1,102 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+
+\setlist[itemize]{leftmargin=1.2in}
+
+
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyvrb} 
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{listings}
+
+\title{Combinatorial Optimization\\Homework 2 – Heuristics and Exact Solutions}
+\author{Matyáš Skalický\\skalimat@fit.cvut.cz}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\medskip
+
+
+\section{Implementation}
+The branch\&bound method implemented in the last exercise was reused for this task. I've newly implemented both dynamic-programming approaches as-well as simple heuristics and FPTAS algorithm.
+
+I've evaluated the implemented algorithms on all instances from all datasets up to the instance size of $27$. I've measured the CPU runtime for each of these tasks compared to the last task, where the main metric was the taken recursion steps.
+
+\subsection{Exact Methods}
+
+The \textbf{branch\&bound} algorithm uses brute-force with 2 speedups. We stop when the current candidate already exceeds the capacity of a bag. Also, we don't recurse further when the cost sum of the items that can be added into the bag is lower than the best found solution.
+
+At first, I've implemented the dynamic programming solution based on the \textbf{decomposition by cost}. This solution was based on memoization by the recursive function calls and returning the maximum value from the tested branches on return.
+
+After finding out, that the FPTAS algorithm requires \textbf{decomposition by weight}. I have implemented the dynamic solution based on weight but by iteratively calculating the contents of the table. The code was way more complex compared to the original decomposition by cost at least in terms of readability.
+
+\subsection{Heuristics}
+
+Compared to the exact methods mentioned earlier, heuristics calculate the result faster, but at the cost of the solution being not exact. I will refer to the difference between ideal and resulting cost of the predicted bag as the error.
+
+The \textbf{greedy} algorithm simply adds the items with the highest cost/weight ratio until the capacity of the bag is reached. The \textbf{redux} algorithm exceeds this by also trying to construct the bag with the most valuable item that fits into the bag.
+
+\textbf{FPTAS} algorithm is based on the dynamic decomposition by weight. First, a constant $k$ is computed for each bag. Costs of all items in the bag are divided by $k$ and rounded to integral values. This leads to a in size of the computed memoization table (and thus faster solution) while limiting the size of the error. The input that modifies the size of the error will be called epsilon in the rest of the report.
+
+\section{Experiments}
+
+\subsection{Exact Algorithms}
+
+\begin{figure}[!htb]
+	\centering
+  	\includegraphics[width=\textwidth]{images/exacts_comparison.png}
+	\caption{Comparison of the exact algorithms: branch\&bound, decomposition by cost and weight}
+	\label{exacts_comparison}
+\end{figure}
+
+First of all, let's note that since the y-axis is logarithmic, the branch\&bound algorithm is exponential regarding the instance size. Funny enough, for smaller instances, this solution beats the dynamic programming as it doesn't require any expensive setup due to allocation of a memoization table.
+
+Figure \ref{exacts_comparison} also compares both the decomposition by cost and decomposition by weight. Decomposition by cost was way faster as it was calculated using memoization without having to initialize the lookup table prior to evaluation. Also, the size of the potential lookup table for weight decomposition is $\textrm{total\_item\_count} \cdot \textrm{total\_items\_cost}$ while for cost decomposition it is $\textrm{total\_item\_count} \cdot \textrm{bag\_capacity}$ which is generally smaller. 
+
+Another reason for speedup of decomposition by cost was that I was using builtin cache from itertools. Thanks to this, the initialization of the cache did not take any time as it was constructed dynamically.
+
+Overall, both the dynamic algorithms seem to be scaling in a similar way.  Decomposition by weight has just a fixed overhead mentioned earlier.
+
+\subsection{Greedy Heuristics}
+
+\begin{figure}[!htb]
+	\centering
+  	\includegraphics[width=\textwidth]{images/greedy_comparison_datasets.png}
+	\caption{Comparison of the greedy heuristics across datasets}
+	\label{greedy_comparison_datasets}
+\end{figure}
+
+Figure \ref{greedy_comparison_datasets} compares the simple greedy algorithm against the redux version. As expected, redux is always slower than the baseline greedy version. Performance is the same on both NK and ZKC datasets. Interestingly simple implementation beats the redux on the ZKW dataset as this dataset is engineered exactly this way.
+
+\subsection{FPTAS Algorithm}
+
+%\begin{figure}[!htb]
+%	\centering
+%  	\includegraphics[width=\textwidth]{images/fpatas_datasets.png}
+%	\caption{fpatas datasets}
+%	\label{Comparison of mean runtime (elapsed) and error size (delta) across datasets}
+%\end{figure}
+
+Figure \ref{fptas_comparison} shows the comparison of the FPTAS algorithm across different datasets. As expected, when we change the epsilon value, the mean error decreases, while the mean elapsed tune increases. This allows us to precisely set the tradeoff between computation complexity and desired precision.
+
+\begin{figure}[!htb]
+	\centering
+  	\includegraphics[width=\textwidth]{images/fptas_comparison.png}
+	\caption{Comparison of mean runtime (elapsed) and mean error across datasets}
+	\label{fptas_comparison}
+\end{figure}
+
+
+\section{Discussion}
+TODO
+
+\end{document}

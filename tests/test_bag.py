@@ -17,8 +17,8 @@ def test_bag_load(rawline, expected):
     assert bag.capacity == expected.capacity
 
 
-def get_dataset(subsample=100):
-    return load_bag_data("data/ZKC/ZKC15_inst.dat", "data/ZKC/ZKC15_sol.dat")[50:subsample]
+def get_dataset(subsample=500):
+    return load_bag_data("data/ZKC/ZKC25_inst.dat", "data/ZKC/ZKC25_sol.dat")[0:subsample]
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())

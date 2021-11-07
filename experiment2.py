@@ -59,6 +59,7 @@ def run(runs: dict, workers: int = 5, executor_class: Callable=ProcessPoolExecut
 
     return pd.DataFrame(records, columns=["dataset", "size", "key", "elapsed", "delta"])
 
+
 if __name__ == "__main__":
     import argparse
 
