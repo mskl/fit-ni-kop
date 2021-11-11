@@ -81,7 +81,7 @@ class Bag:
             if col == 0:
                 continue
 
-            for row in range(total_rows-1):
+            for row in range(total_rows):
                 lookup_table[col, row] = lookup_table[col-1, row]
                 if item.cost <= row:
                     if lookup_table[col-1, row - item.cost] != math.inf:
@@ -89,7 +89,7 @@ class Bag:
                         if prev < lookup_table[col, row]:
                             lookup_table[col, row] = prev
 
-        for cost in reversed(range(total_rows-1)):
+        for cost in reversed(range(total_rows)):
             weight = lookup_table[self.size-1, cost]
             if weight <= self.capacity and cost > self.best_cost:
                 self.best_cost = cost

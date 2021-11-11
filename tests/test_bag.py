@@ -19,7 +19,7 @@ def test_bag_load(rawline, expected):
 
 
 def get_dataset(subsample=-1):
-    return load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:subsample]
+    return load_bag_data("data/NK/NK25_inst.dat", "data/NK/NK25_sol.dat")[367:368]
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
@@ -50,7 +50,8 @@ def test_bag_dynamic_cost(bag_def, bag_sol):
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
 def test_bag_dynamic_weight(bag_def, bag_sol):
-    res = Bag.from_line(bag_def).solve_dynamic_weight()
+    bag = Bag.from_line(bag_def)
+    res = bag.solve_dynamic_weight()
 
     iid, count, target_cost, target_items = parse_solution(bag_sol)
     assert res == target_cost
@@ -64,9 +65,11 @@ def test_bag_ftapas(bag_def, bag_sol):
 
     iid, count, target_cost, target_items = parse_solution(bag_sol)
 
-    total = sum(i.cost for i in bag.items)
     error = abs(res - target_cost)
-    assert error/total <= 0.15
+    if target_cost != 0:
+        assert error/target_cost <= 0.15
+    else:
+        assert res == target_cost
 
 
 def test_edgecase():

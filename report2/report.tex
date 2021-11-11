@@ -21,15 +21,16 @@
 \author{Matyáš Skalický\\skalimat@fit.cvut.cz}
 
 \begin{document}
+\date{November 11, 2021}
 \maketitle
 \tableofcontents
 \medskip
 
 
 \section{Implementation}
-The branch\&bound method implemented in the last exercise was reused for this task. I've newly implemented both dynamic-programming approaches as-well as simple heuristics and FPTAS algorithm.
+I've newly implemented both dynamic-programming approaches as-well as simple heuristics and FPTAS algorithm. The branch\&bound method implemented in the last exercise was reused for this task.
 
-I've evaluated the implemented algorithms on all instances from all datasets up to the instance size of $27$. I've measured the CPU runtime for each of these tasks compared to the last report, where the main metric was the taken recursion steps.
+I've evaluated the implemented algorithms on all instances from all datasets up to the instance size of $27$. I've measured the CPU runtime for each of these tasks.
 
 \subsection{Exact Methods}
 
@@ -65,11 +66,11 @@ Costs of all items in the bag are divided by $k$ and floored to integral values.
 
 First of all, let's note that since the y-axis is logarithmic, the branch\&bound algorithm is exponential regarding the instance size. Interestingly enough, for smaller instances, this solution beats the dynamic programming as it doesn't require any expensive setup due to allocation of a memoization table.
 
-Figure \ref{exacts_comparison} also compares dynamic programming using decomposition by cost and decomposition by weight. Decomposition by cost was way faster as it was calculated using memoization without having to initialize the lookup table prior to evaluation. Also, the size of the potential lookup table for weight decomposition is $\textrm{total\_item\_count} \cdot \textrm{total\_items\_cost}$ while for cost decomposition it is $\textrm{total\_item\_count} \cdot \textrm{bag\_capacity}$ which can lead to different execution times.
+Figure \ref{exacts_comparison} also compares dynamic programming using decomposition by cost and decomposition by weight. Decomposition by cost was way faster as it was calculated using memoization without having to initialize the lookup table prior to evaluation. Also, the size of the potential lookup table for weight decomposition is $\textrm{total-item-count} \cdot \textrm{total-items-cost}$ while for cost decomposition it is $\textrm{total-item-count} \cdot \textrm{bag-capacity}$ which can lead to different execution times.
 
-Another reason for speedup of decomposition by cost was that I was using builtin cache from python's \emph{itertools}. Thanks to this, the initialization of cache did not take long as it was constructed dynamically.
+The main reason for speedup of decomposition by cost was that I was using builtin cache from python's \emph{itertools}. Thanks to this, the initialization of cache did not take long as it was constructed dynamically.
 
-Overall, both the dynamic algorithms seem to be scaling in a similar way.  Decomposition by weight has just a fixed overhead mentioned earlier.
+Overall, both dynamic algorithms seemed to be scaling in a similar way.  Decomposition by weight has just a fixed overhead mentioned earlier.
 
 \subsection{Greedy Heuristics}
 
@@ -80,7 +81,7 @@ Overall, both the dynamic algorithms seem to be scaling in a similar way.  Decom
 	\label{greedy_comparison_datasets}
 \end{figure}
 
-Figure \ref{greedy_comparison_datasets} compares the simple greedy algorithm against the redux version. As expected, redux is always slower than the baseline greedy version. Performance is the same on both NK and ZKC datasets. Interestingly simple implementation beats the redux on the ZKW dataset as this dataset is engineered exactly this way.
+Figure \ref{greedy_comparison_datasets} compares the simple greedy algorithm against the redux version. As expected, redux is always slower than the baseline greedy version. Performance is the same on both NK and ZKC datasets. Redux implementation beats the simple heuristic on the ZKW dataset as this dataset is engineered exactly this way.
 
 \subsection{FPTAS Algorithm}
 
@@ -91,7 +92,7 @@ Figure \ref{greedy_comparison_datasets} compares the simple greedy algorithm aga
 %	\label{Comparison of mean runtime (elapsed) and error size (delta) across datasets}
 %\end{figure}
 
-Figure \ref{fptas_comparison} shows the comparison of the FPTAS algorithm across different datasets. As expected, when we change the epsilon value, the mean error decreases, while the mean elapsed tune increases. This allows us to precisely set the tradeoff between computation complexity and desired precision.
+Figure \ref{fptas_comparison} shows the comparison of the FPTAS algorithm across different datasets. As expected, when we change the epsilon value, the mean error decreases, while the mean elapsed time increases. This allows us to precisely set the tradeoff between computation complexity and desired precision.
 
 \begin{figure}[!htb]
 	\centering
@@ -101,7 +102,15 @@ Figure \ref{fptas_comparison} shows the comparison of the FPTAS algorithm across
 \end{figure}
 
 
-\section{Discussion}
-TODO
+\section{Discussion and Takeoffs}
+Regarding the simple heuristics, the greedy algorithm is extremely fast. On a general dataset, the \emph{simple} achieved comparable results to the \emph{redux} algorithm. \emph{Redux} worked better only in for a specific dataset.
+
+It is interesting that the dynamic programming solution starts to be viable only from a certain instance size. For smaller instances, it is faster to just utilize a brute-force search with branch\&bound optimizations.
+
+I have implemented the dynamic programming solution using both approaches, by memoizing the recursive calls as well as by iteratively computing the solution. First mentioned method was much simpler to implement.
+
+FPTAS is a nice framework which gives us the power to easily tradeoff between desired precision and required computational resources.
+
+I have spent a considerable amount of time debugging an instance where an item's cost was $0$ after dividing by $k$ in FPTAS algorithm. This led to a wrong solution even though the dynamic solutions were correct on all provided data.
 
 \end{document}
