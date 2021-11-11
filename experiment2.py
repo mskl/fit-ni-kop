@@ -22,15 +22,15 @@ RUNS = {
 
 def solve_line(bagdef, bagsol, dataset, size, name, params, key):
     bag = Bag.from_line(bagdef)
-    iid, count, target_cost, target_items = parse_solution(bagsol)
+    iid, count, target, target_items = parse_solution(bagsol)
 
     start = time.time()
     bag.initialize()
-    res = getattr(bag, name)(**params)
+    result = getattr(bag, name)(**params)
     elapsed = time.time() - start
-    delta = abs(res - target_cost)
+    # delta = abs(res - target_cost)
 
-    return dataset, size, key, elapsed, delta, target_cost
+    return iid, dataset, size, key, elapsed, result, target
 
 
 def run(runs: dict, workers: int = 5, executor_class: Callable=ProcessPoolExecutor, subsample: int = None) -> pd.DataFrame:
@@ -57,7 +57,7 @@ def run(runs: dict, workers: int = 5, executor_class: Callable=ProcessPoolExecut
                 records.append(future.result())
                 pbar.update(1)
 
-    return pd.DataFrame(records, columns=["dataset", "size", "key", "elapsed", "delta", "target_cost"])
+    return pd.DataFrame(records, columns=["iid", "dataset", "size", "key", "elapsed", "result", "target"])
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@
 \section{Implementation}
 The branch\&bound method implemented in the last exercise was reused for this task. I've newly implemented both dynamic-programming approaches as-well as simple heuristics and FPTAS algorithm.
 
-I've evaluated the implemented algorithms on all instances from all datasets up to the instance size of $27$. I've measured the CPU runtime for each of these tasks compared to the last task, where the main metric was the taken recursion steps.
+I've evaluated the implemented algorithms on all instances from all datasets up to the instance size of $27$. I've measured the CPU runtime for each of these tasks compared to the last report, where the main metric was the taken recursion steps.
 
 \subsection{Exact Methods}
 
@@ -37,7 +37,7 @@ The \textbf{branch\&bound} algorithm uses brute-force with 2 speedups. We stop w
 
 At first, I've implemented the dynamic programming solution based on the \textbf{decomposition by cost}. This solution was based on memoization by the recursive function calls and returning the maximum value from the tested branches on return.
 
-After finding out, that the FPTAS algorithm requires \textbf{decomposition by weight}. I have implemented the dynamic solution based on weight but by iteratively calculating the contents of the table. The code was way more complex compared to the original decomposition by cost at least in terms of readability.
+After finding out, that the FPTAS algorithm requires \textbf{decomposition by weight}. I have implemented the dynamic solution based on weight. But this time by iteratively calculating contents of the table. The code was in comparison way more complex compared to the original decomposition by cost. At least in terms of readability.
 
 \subsection{Heuristics}
 
@@ -45,8 +45,13 @@ Compared to the exact methods mentioned earlier, heuristics calculate the result
 
 The \textbf{greedy} algorithm simply adds the items with the highest cost/weight ratio until the capacity of the bag is reached. The \textbf{redux} algorithm exceeds this by also trying to construct the bag with the most valuable item that fits into the bag.
 
-\textbf{FPTAS} algorithm is based on the dynamic decomposition by weight. First, a constant $k$ is computed for each bag. Costs of all items in the bag are divided by $k$ and rounded to integral values. This leads to a in size of the computed memoization table (and thus faster solution) while limiting the size of the error. The input that modifies the size of the error will be called epsilon in the rest of the report.
+\textbf{FPTAS} algorithm is based on the dynamic decomposition by weight. For a given $\epsilon$ a constant $k$ is computed for each bag. 
 
+\begin{equation}
+k = \frac{\epsilon \cdot \max_{i \in \textrm{items}} i.\textrm{cost}}{|\textrm{items}|}
+\end{equation}
+
+Costs of all items in the bag are divided by $k$ and floored to integral values. This leads to smaller memoization table (and thus faster solution) while keeping the size of the error proportionally small.
 \section{Experiments}
 
 \subsection{Exact Algorithms}
@@ -60,9 +65,9 @@ The \textbf{greedy} algorithm simply adds the items with the highest cost/weight
 
 First of all, let's note that since the y-axis is logarithmic, the branch\&bound algorithm is exponential regarding the instance size. Interestingly enough, for smaller instances, this solution beats the dynamic programming as it doesn't require any expensive setup due to allocation of a memoization table.
 
-Figure \ref{exacts_comparison} also compares both the decomposition by cost and decomposition by weight. Decomposition by cost was way faster as it was calculated using memoization without having to initialize the lookup table prior to evaluation. Also, the size of the potential lookup table for weight decomposition is $\textrm{total\_item\_count} \cdot \textrm{total\_items\_cost}$ while for cost decomposition it is $\textrm{total\_item\_count} \cdot \textrm{bag\_capacity}$ which is generally smaller. 
+Figure \ref{exacts_comparison} also compares dynamic programming using decomposition by cost and decomposition by weight. Decomposition by cost was way faster as it was calculated using memoization without having to initialize the lookup table prior to evaluation. Also, the size of the potential lookup table for weight decomposition is $\textrm{total\_item\_count} \cdot \textrm{total\_items\_cost}$ while for cost decomposition it is $\textrm{total\_item\_count} \cdot \textrm{bag\_capacity}$ which can lead to different execution times.
 
-Another reason for speedup of decomposition by cost was that I was using builtin cache from itertools. Thanks to this, the initialization of the cache did not take any time as it was constructed dynamically.
+Another reason for speedup of decomposition by cost was that I was using builtin cache from python's \emph{itertools}. Thanks to this, the initialization of cache did not take long as it was constructed dynamically.
 
 Overall, both the dynamic algorithms seem to be scaling in a similar way.  Decomposition by weight has just a fixed overhead mentioned earlier.
 

@@ -64,8 +64,9 @@ def test_bag_ftapas(bag_def, bag_sol):
 
     iid, count, target_cost, target_items = parse_solution(bag_sol)
 
-    if abs(res - target_cost) > 4576.0:
-        raise Exception(iid, res, target_cost)
+    total = sum(i.cost for i in bag.items)
+    error = abs(res - target_cost)
+    assert error/total <= 0.15
 
 
 def test_edgecase():
