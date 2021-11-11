@@ -58,7 +58,7 @@ class Bag:
         items = copy.deepcopy(self.items)
 
         for item in self.items:
-            item.cost = math.floor(item.cost / k)
+            item.cost = math.ceil(item.cost / k)
 
         self.solve_dynamic_weight()
 

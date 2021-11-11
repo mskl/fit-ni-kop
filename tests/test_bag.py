@@ -19,7 +19,8 @@ def test_bag_load(rawline, expected):
 
 
 def get_dataset(subsample=-1):
-    return load_bag_data("data/NK/NK25_inst.dat", "data/NK/NK25_sol.dat")[367:368]
+    data = load_bag_data("data/NK/NK20_inst.dat", "data/NK/NK20_sol.dat")
+    return [(x, y) for x, y in data if x.split(" ")[0] == "477"]
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
@@ -67,7 +68,7 @@ def test_bag_ftapas(bag_def, bag_sol):
 
     error = abs(res - target_cost)
     if target_cost != 0:
-        assert error/target_cost <= 0.15
+        assert (error/target_cost) <= 0.15
     else:
         assert res == target_cost
 
