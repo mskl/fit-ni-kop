@@ -58,7 +58,7 @@ The \textbf{greedy} algorithm simply adds the items with the highest cost/weight
 	\label{exacts_comparison}
 \end{figure}
 
-First of all, let's note that since the y-axis is logarithmic, the branch\&bound algorithm is exponential regarding the instance size. Funny enough, for smaller instances, this solution beats the dynamic programming as it doesn't require any expensive setup due to allocation of a memoization table.
+First of all, let's note that since the y-axis is logarithmic, the branch\&bound algorithm is exponential regarding the instance size. Interestingly enough, for smaller instances, this solution beats the dynamic programming as it doesn't require any expensive setup due to allocation of a memoization table.
 
 Figure \ref{exacts_comparison} also compares both the decomposition by cost and decomposition by weight. Decomposition by cost was way faster as it was calculated using memoization without having to initialize the lookup table prior to evaluation. Also, the size of the potential lookup table for weight decomposition is $\textrm{total\_item\_count} \cdot \textrm{total\_items\_cost}$ while for cost decomposition it is $\textrm{total\_item\_count} \cdot \textrm{bag\_capacity}$ which is generally smaller. 
 

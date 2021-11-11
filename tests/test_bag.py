@@ -1,5 +1,6 @@
 import pytest
 from bagsolver.bag import Bag
+from bagsolver.item import Item
 from bagsolver.utils import load_bag_data, parse_solution
 
 
@@ -17,8 +18,8 @@ def test_bag_load(rawline, expected):
     assert bag.capacity == expected.capacity
 
 
-def get_dataset(subsample=500):
-    return load_bag_data("data/ZKC/ZKC25_inst.dat", "data/ZKC/ZKC25_sol.dat")[0:subsample]
+def get_dataset(subsample=-1):
+    return load_bag_data("data/NK/NK10_inst.dat", "data/NK/NK10_sol.dat")[:subsample]
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
@@ -57,7 +58,22 @@ def test_bag_dynamic_weight(bag_def, bag_sol):
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
 def test_bag_ftapas(bag_def, bag_sol):
-    res = Bag.from_line(bag_def).solve_ftapas(.3)
+    bag = Bag.from_line(bag_def)
+    bag.initialize()
+    res = bag.solve_ftapas(0.15)
 
     iid, count, target_cost, target_items = parse_solution(bag_sol)
-    assert (res - target_cost) < 100
+
+    if abs(res - target_cost) > 4576.0:
+        raise Exception(iid, res, target_cost)
+
+
+def test_edgecase():
+    """First item has 0 cost, test that the methods are stable."""
+    items = [
+        Item(weight=250, cost=0, index=0),
+        Item(weight=96, cost=56, index=1),
+        Item(weight=113, cost=22, index=2),
+    ]
+    bag = Bag(-1, capacity=160, min_cost=float("inf"), items=items)
+    assert bag.solve_dynamic_weight() == bag.solve_dynamic_cost()

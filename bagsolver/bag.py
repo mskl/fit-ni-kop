@@ -16,7 +16,7 @@ class Bag:
         self.items = items
         self.size = len(self.items)
 
-        self.best_solution = np.zeros(self.size)
+        self.best_solution = None
         self.optimizations = None
         self.best_cost = None
         self.proposal = None
@@ -72,7 +72,8 @@ class Bag:
         lookup_table = np.full((self.size, total_cost+1), math.inf)
 
         lookup_table[0, 0] = 0
-        lookup_table[0, self.items[0].cost] = self.items[0].weight
+        if self.items[0].cost != 0:
+            lookup_table[0, self.items[0].cost] = self.items[0].weight
 
         total_rows = lookup_table.shape[1]
 
