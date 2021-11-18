@@ -6,4 +6,4 @@
 \contentsline {subsection}{\numberline {2.1}Exact Algorithms}{2}{}%
 \contentsline {subsection}{\numberline {2.2}Greedy Heuristics}{2}{}%
 \contentsline {subsection}{\numberline {2.3}FPTAS Algorithm}{3}{}%
-\contentsline {section}{\numberline {3}Discussion and Takeoffs}{3}{}%
+\contentsline {section}{\numberline {3}Discussion and Takeoffs}{4}{}%
