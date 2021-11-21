@@ -15,9 +15,7 @@ def solve_line(instance, method, args):
     result = getattr(bag, method)()
     elapsed = time.time() - start
 
-    del bag
-
-    return method, result, elapsed, args
+    return instance, method, result, elapsed, args
 
 
 def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecutor) -> pd.DataFrame:
@@ -41,7 +39,7 @@ def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecu
                     records.append(future.result())
                     pbar.update(1)
 
-    return pd.DataFrame(records, columns=["method", "result", "elapsed", "args"])
+    return pd.DataFrame(records, columns=["instance", "method", "result", "elapsed", "args"])
 
 
 if __name__ == "__main__":
