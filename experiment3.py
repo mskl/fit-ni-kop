@@ -27,10 +27,10 @@ def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecu
 
     random.shuffle(tasks)
 
-    for i in range(0, len(tasks), 2000):
-        chunk = tasks[i:i + 2000]
-        futures = []
-        with tqdm(total=len(chunk)) as pbar:
+    with tqdm(total=len(tasks)) as pbar:
+        for i in range(0, len(tasks), 2000):
+            futures = []
+            chunk = tasks[i:i + 2000]
             with executor_class(max_workers=workers) as executor:
                 for task in chunk:
                     futures.append(executor.submit(solve_line, *task))

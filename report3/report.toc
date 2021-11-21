@@ -1,6 +1,6 @@
 \babel@toc {english}{}
 \contentsline {section}{\numberline {1}Measured Algorithms}{1}{}%
-\contentsline {section}{\numberline {2}Fixed and Free Variables}{1}{}%
+\contentsline {section}{\numberline {2}Measured Variables}{1}{}%
 \contentsline {section}{\numberline {3}Experiments}{2}{}%
 \contentsline {subsection}{\numberline {3.1}Robustness}{2}{}%
 \contentsline {subsection}{\numberline {3.2}Pilot Experiments}{2}{}%

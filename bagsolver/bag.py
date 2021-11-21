@@ -25,7 +25,7 @@ class Bag:
 
     def initialize(self) -> None:
         self.best_cost = 0
-        self.optimizations = None
+        self.optimizations = set()
         self.proposal = np.zeros(self.size)
         self.best_solution = np.zeros(self.size)
 
@@ -150,13 +150,13 @@ class Bag:
         return items_cost
 
     def solve_bruteforce(self) -> int:
-        return self.solve_branch_bound(optimizations=set())
-
-    def solve_branch_bound(self, optimizations=None) -> int:
-        """Solve using branch&bound approach. If optimizations are None, a brute-force will be used."""
-        self.optimizations = optimizations or {"weight", "residuals"}
         self._solve_bb(0, 0, 0)
         return self.best_cost
+
+    def solve_branch_bound(self) -> int:
+        """Solve using branch&bound approach. If optimizations are None, a brute-force will be used."""
+        self.optimizations = {"weight", "residuals"}
+        return self.solve_bruteforce()
 
     def _solve_bb(self, index: int, tweight: int, tcost: int) -> None:
         weight = tweight + self.items[index-1].weight * self.proposal[index-1]

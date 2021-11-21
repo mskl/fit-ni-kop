@@ -50,7 +50,21 @@ We will try to put emphasis on the hypothesis below:
 We will measure the effect of each variable separately. We will generate 10 problem instances for each algorithm with each weight.
 
 \subsection{Robustness}
-First, we will try to answer the robustness (invariance to order of input items) of each algorithm. We will use default generator values mentioned above. We will generate 500 instances and calculate 10 permutations for each algorithm.
+First, we will try to answer the robustness (invariance to order of input items) of each algorithm. We will use default generator values mentioned above. We will generate 500 instances and calculate 10 permutations for each algorithm. We will calculate the variance in the elapsed time across the 10 permutations and take a mean across all instances.
+
+\begin{table}[!htb]
+\centering
+\begin{tabular}{lr}
+method             & runtime mean variance \\
+\midrule
+greedy\_simple             & 0.00000004 \\
+branch\&bound & 0.00016046 \\
+bruteforce & 0.00017201 \\
+dynamic\_cost  & 0.06896283 \\
+\bottomrule
+\end{tabular}
+\caption{Mean variance for 10 runs of given method}
+\end{table}
 
 \subsection{Pilot Experiments}
 

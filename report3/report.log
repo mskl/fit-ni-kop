@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  21 NOV 2021 18:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  21 NOV 2021 21:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -316,13 +316,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] (./
 report.aux) ) 
 Here is how much of TeX's memory you used:
- 6414 strings out of 478994
- 98753 string characters out of 5858184
- 419512 words of memory out of 5000000
- 23852 multiletter control sequences out of 15000+600000
+ 6417 strings out of 478994
+ 98836 string characters out of 5858184
+ 417512 words of memory out of 5000000
+ 23855 multiletter control sequences out of 15000+600000
  408020 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,7n,77p,314b,1091s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,9n,77p,363b,1091s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-su
 per-ts1.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/c
@@ -333,7 +333,7 @@ mi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 fb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
 b></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
 
-Output written on report.pdf (2 pages, 98478 bytes).
+Output written on report.pdf (2 pages, 98668 bytes).
 PDF statistics:
  44 PDF objects out of 1000 (max. 8388607)
  31 compressed objects within 1 object stream
