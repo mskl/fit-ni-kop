@@ -15,6 +15,8 @@ def solve_line(instance, method, args):
     result = getattr(bag, method)()
     elapsed = time.time() - start
 
+    del bag
+
     return method, result, elapsed, args
 
 
