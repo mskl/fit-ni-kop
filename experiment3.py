@@ -21,7 +21,7 @@ def solve_line(instance, method, args):
 
 
 def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecutor) -> pd.DataFrame:
-    tasks, futures, records = [], [], []
+    tasks, records = [], []
 
     tasks_df = pd.read_csv(tasks_csv)
     for _, row in tasks_df.iterrows():
@@ -29,14 +29,17 @@ def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecu
 
     random.shuffle(tasks)
 
-    with tqdm(total=len(tasks)) as pbar:
-        with executor_class(max_workers=workers) as executor:
-            for task in tasks:
-                futures.append(executor.submit(solve_line, *task))
+    for i in range(0, len(tasks), 2000):
+        chunk = tasks[i:i + 2000]
+        futures = []
+        with tqdm(total=len(chunk)) as pbar:
+            with executor_class(max_workers=workers) as executor:
+                for task in chunk:
+                    futures.append(executor.submit(solve_line, *task))
 
-            for future in as_completed(futures):
-                records.append(future.result())
-                pbar.update(1)
+                for future in as_completed(futures):
+                    records.append(future.result())
+                    pbar.update(1)
 
     return pd.DataFrame(records, columns=["method", "result", "elapsed", "args"])
 
