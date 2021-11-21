@@ -1,3 +1,4 @@
+import random
 from typing import List, Union, Optional, Iterable
 from functools import lru_cache
 import numpy as np
@@ -7,9 +8,8 @@ import copy
 from .item import Item
 
 
-
 class Bag:
-    def __init__(self, iid: int, capacity: int, min_cost: Union[int, float], items: Optional[List[Item]]):
+    def __init__(self, iid: int, capacity: int, min_cost: Union[int, float], items: List[Item]):
         self.iid = iid
         self.capacity = capacity
         self.min_cost = min_cost
@@ -28,6 +28,9 @@ class Bag:
         self.optimizations = None
         self.proposal = np.zeros(self.size)
         self.best_solution = np.zeros(self.size)
+
+    def shuffle(self) -> None:
+        random.shuffle(self.items)
 
     @classmethod
     def from_line(cls, line: str) -> "Bag":
@@ -146,9 +149,12 @@ class Bag:
 
         return items_cost
 
-    def solve_branch_bound(self, optimizations={"weight", "residuals"}) -> int:
+    def solve_bruteforce(self) -> int:
+        return self.solve_branch_bound(optimizations=set())
+
+    def solve_branch_bound(self, optimizations=None) -> int:
         """Solve using branch&bound approach. If optimizations are None, a brute-force will be used."""
-        self.optimizations = optimizations or set()
+        self.optimizations = optimizations or {"weight", "residuals"}
         self._solve_bb(0, 0, 0)
         return self.best_cost
 
