@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  22 NOV 2021 00:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.7)  22 NOV 2021 02:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -321,30 +321,46 @@ Package pdftex.def Info: images/pilot.png  used on input line 81.
 (pdftex.def)             Requested size: 452.9679pt x 205.4058pt.
  [2
 
- <./images/pilot.png>] [3] (./report.aux) ) 
+ <./images/pilot.png>]
+<images/wdist.png, id=20, 881.2925pt x 303.1325pt>
+File: images/wdist.png Graphic file (type png)
+<use images/wdist.png>
+Package pdftex.def Info: images/wdist.png  used on input line 98.
+(pdftex.def)             Requested size: 452.9679pt x 155.80276pt.
+<images/cwratio.png, id=21, 881.2925pt x 303.1325pt>
+File: images/cwratio.png Graphic file (type png)
+<use images/cwratio.png>
+Package pdftex.def Info: images/cwratio.png  used on input line 107.
+(pdftex.def)             Requested size: 452.9679pt x 155.80276pt.
+<images/pwcorr.png, id=22, 881.2925pt x 303.1325pt>
+File: images/pwcorr.png Graphic file (type png)
+<use images/pwcorr.png>
+Package pdftex.def Info: images/pwcorr.png  used on input line 116.
+(pdftex.def)             Requested size: 452.9679pt x 155.80276pt.
+ [3 <./images/wdist.png> <./images/cwratio.png>] [4 <./images/pwcorr.png>] (./r
+eport.aux) ) 
 Here is how much of TeX's memory you used:
- 6430 strings out of 478994
- 99027 string characters out of 5858184
- 417520 words of memory out of 5000000
- 23864 multiletter control sequences out of 15000+600000
+ 6451 strings out of 478994
+ 99393 string characters out of 5858184
+ 418544 words of memory out of 5000000
+ 23882 multiletter control sequences out of 15000+600000
  408366 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,8n,77p,428b,1091s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2021/texmf-dist/
-fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2021/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2021/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2021/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2021/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/
-public/cm-super/sfrm1000.pfb>
-Output written on report.pdf (3 pages, 122794 bytes).
+{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-sup
+er-ts1.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+bx12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.
+pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pf
+b></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+</usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on report.pdf (4 pages, 275750 bytes).
 PDF statistics:
- 54 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

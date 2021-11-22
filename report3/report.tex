@@ -87,13 +87,36 @@ I would say, that since the measured metric was the runtime and the experiments 
 
 Based on the Figure \ref{pilot_figure}, we can see that there is a strong correlation between \emph{dynamic} and \lstinline{cw_ratio}. We will further inspect the relation of \emph{dynamic} and \lstinline{w_dist}. For the \emph{branch\&bound}, we will inspect the variables \lstinline{cw_ratio} and \lstinline{pw_corr} as they has shown a small correlation with the algorithm runtime.
 
-\subsubsection{Dynamic vs. w\_dist}
+All variables were tested separately, 100 samples per each testing instance size.
 
-\subsubsection{Dynamic vs. cv\_ratio}
+\subsubsection{Weight Distribution (w\_dist)}
 
-\subsubsection{Branch\&Bound vs. cv\_ratio}
+As expected by the pilot experiments, the weight distribution does not heavily affect the elapsed time.
 
-\subsubsection{Branch\&Bound vs. pw\_corr}
+\begin{figure}[!htb]
+	\centering
+  	\includegraphics[width=\textwidth]{images/wdist.png}
+	\caption{Weight distribution vs. experiment runtime}
+	\label{wdist}
+\end{figure}
+
+\subsubsection{Capacity and Weight Ratio (cw\_ratio)}
+
+\begin{figure}[!htb]
+	\centering
+  	\includegraphics[width=\textwidth]{images/cwratio.png}
+	\caption{Capacity and weight ratio vs. experiment runtime}
+	\label{cwratio}
+\end{figure}
+
+\subsubsection{Price and Weight Correlation (pw\_corr)}
+
+\begin{figure}[!htb]
+	\centering
+  	\includegraphics[width=\textwidth]{images/pwcorr.png}
+	\caption{Price and Weight Correlation vs. experiment runtime}
+	\label{pwcorr}
+\end{figure}
 
 \section{Discussion and Takeoffs}
 
