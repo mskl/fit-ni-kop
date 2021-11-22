@@ -4,5 +4,9 @@
 \contentsline {section}{\numberline {3}Experiments}{2}{}%
 \contentsline {subsection}{\numberline {3.1}Robustness}{2}{}%
 \contentsline {subsection}{\numberline {3.2}Pilot Experiments}{2}{}%
-\contentsline {subsection}{\numberline {3.3}Detailed Experiments}{2}{}%
-\contentsline {section}{\numberline {4}Discussion and Takeoffs}{2}{}%
+\contentsline {subsection}{\numberline {3.3}Detailed Experiments}{3}{}%
+\contentsline {subsubsection}{\numberline {3.3.1}Dynamic vs. cv\_ratio}{3}{}%
+\contentsline {subsubsection}{\numberline {3.3.2}Dynamic vs. w\_dist}{3}{}%
+\contentsline {subsubsection}{\numberline {3.3.3}Branch\&Bound vs. cv\_ratio}{3}{}%
+\contentsline {subsubsection}{\numberline {3.3.4}Branch\&Bound vs. w\_dist}{3}{}%
+\contentsline {section}{\numberline {4}Discussion and Takeoffs}{3}{}%

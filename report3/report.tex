@@ -44,7 +44,7 @@ In the following experiments, we will try to measure how time and the solution q
 	\item Granularity and distribution of weights. (\lstinline{w_dist} $\in [0, 2]$)
 \end{itemize}
 
-We will try to put emphasis on the hypothesis below:
+\clearpage
 
 \section{Experiments}
 We will measure the effect of each variable separately. We will generate 10 problem instances for each algorithm with each weight.
@@ -54,31 +54,46 @@ First, we will try to answer the robustness (invariance to order of input items)
 
 \begin{table}[!htb]
 \centering
-\begin{tabular}{lr}
-method             & runtime mean variance \\
+\begin{tabular}{lrr}
+method & mean runtime & mean runtime variance\\
 \midrule
-greedy\_simple             & 0.00000004 \\
-branch\&bound & 0.00016046 \\
-bruteforce & 0.00017201 \\
-dynamic\_cost  & 0.06896283 \\
+greedy heuristic & 0.00006964 & 0.00000001 \\
+branch\&bound & 0.00642724 & 0.00001817 \\
+dynamic (cost) & 0.38064328 & 0.01843123 \\
+bruteforce   & 9.22061772 & 1.95676123 \\
 \bottomrule
 \end{tabular}
-\caption{Mean variance for 10 runs of given method}
+\caption{Mean of runtime (seconds) and runtime variance over 10 permutations}
 \end{table}
+
+It is not surprising, that the heuristic is extremely stable as it is basically just one pass over the items in the bag. I have expected that the algorithms such as branch\&bound and dynamic would be less robust as especially the first one depends on the order of items while pruning. Yet the dynamic algorithm seems to be not very robust as well.
+
+It is surprising that the bruteforce algorithm shows such huge mean variance in the measured runtime. But it is also worth noting that the mean runtime for bruteforce was $9.22$ seconds while it was only $0.38$ and $0.006$ seconds for dynamic and branch\&bound respectively.
+
+I would say, that since the measured metric was the runtime and the experiments were performed on a 40-core CPU in parallel, it could be caused by uneven load across CPU cores as different tasks were running on the CPU as well. But I still find it very interesting.
 
 \subsection{Pilot Experiments}
 
- We will not measure the permutations in the pilot experiments.
+ We will not measure the permutations in the pilot experiments. Figure \ref{pilot_figure} contains the absolute Pearson correlation between the runtime in seconds and changing parameters in the instance generator.
 
-%\begin{figure}[!htb]
-%	\centering
-%  	\includegraphics[width=\textwidth]{images/exacts_comparison.png}
-%	\caption{Comparison of the exact algorithms: branch\&bound, decomposition by cost and weight}
-%	\label{exacts_comparison}
-%\end{figure}
+\begin{figure}[!htb]
+	\centering
+  	\includegraphics[width=\textwidth]{images/pilot.png}
+	\caption{Correlation of the algorithm runtime to the change in parameters}
+	\label{pilot_figure}
+\end{figure}
 
 \subsection{Detailed Experiments}
 
+Based on the Figure \ref{pilot_figure}, we can see that there is a strong correlation between \emph{dynamic} and \lstinline{cw_ratio}. We will further inspect the relation of \emph{dynamic} and \lstinline{w_dist}. For the \emph{branch\&bound}, we will inspect the variables \lstinline{cw_ratio} and \lstinline{pw_corr} as they has shown a small correlation with the algorithm runtime.
+
+\subsubsection{Dynamic vs. w\_dist}
+
+\subsubsection{Dynamic vs. cv\_ratio}
+
+\subsubsection{Branch\&Bound vs. cv\_ratio}
+
+\subsubsection{Branch\&Bound vs. pw\_corr}
 
 \section{Discussion and Takeoffs}
 

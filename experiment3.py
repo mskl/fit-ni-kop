@@ -7,7 +7,7 @@ import pandas as pd
 import random
 
 
-def solve_line(instance, method, args):
+def solve_line(instance, method, args, tag):
     bag = Bag.from_line(instance)
 
     start = time.time()
@@ -15,7 +15,7 @@ def solve_line(instance, method, args):
     result = getattr(bag, method)()
     elapsed = time.time() - start
 
-    return instance, method, result, elapsed, args
+    return instance, method, result, elapsed, args, tag
 
 
 def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecutor) -> pd.DataFrame:
@@ -23,7 +23,7 @@ def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecu
 
     tasks_df = pd.read_csv(tasks_csv)
     for _, row in tasks_df.iterrows():
-        tasks.append([row["instance"], row["method"], row["args"]])
+        tasks.append([row["instance"], row["method"], row["args"], row["tag"]])
 
     random.shuffle(tasks)
 
@@ -39,7 +39,7 @@ def run(tasks_csv, workers: int = 5, executor_class: Callable = ProcessPoolExecu
                     records.append(future.result())
                     pbar.update(1)
 
-    return pd.DataFrame(records, columns=["instance", "method", "result", "elapsed", "args"])
+    return pd.DataFrame(records, columns=["instance", "method", "result", "elapsed", "args", "tag"])
 
 
 if __name__ == "__main__":
