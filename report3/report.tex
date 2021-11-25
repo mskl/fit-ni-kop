@@ -25,7 +25,7 @@
 
 \section{Measured Algorithms}
 
-Baseline exact method is the \textbf{brute-force} algorithm that simply iterates all possible solutions without any speedups.
+Baseline exact method is the \textbf{brute-force} algorithm that recursively iterates explores all possible solutions without any speedups or pruning.
 
 The \textbf{branch\&bound} extends the brute-force with 2 speedups. We stop when the current candidate already exceeds the capacity of a bag. Also, we don't recurse further when the cost sum of the items that can be added into the bag is lower than the best found solution.
 
@@ -39,9 +39,9 @@ For the pilot experiments, I've chosen to benchmark all algorithms on the instan
 In the following experiments, we will try to measure how time and the solution quality depend on the generator inputs. Also, we will look how robust each algorithm is against permutations in the algorithm inputs.
 
 \begin{itemize}
-	\item Ratio of bag capacity to summary weight. (\lstinline{cw_ratio} $\in [0, 2]$)
-	\item Correlation between price and weight. (\lstinline{pw_corr} $\in [0, 1]$)
-	\item Granularity and distribution of weights. (\lstinline{w_dist} $\in [0, 2]$)
+	\item Ratio of bag capacity to summary weight. (\lstinline{cw_ratio} $\in [0, 1]$)
+	\item Correlation between price and weight. (\lstinline{pw_corr} $\in \{\textit{uni}, \textit{corr}, \textit{strong}\}$)
+	\item Granularity and distribution of weights. (\lstinline{w_dist} $\in \{\textit{light}, \textit{bal}, \textit{heavy}\}$)
 \end{itemize}
 
 \clearpage
@@ -50,7 +50,7 @@ In the following experiments, we will try to measure how time and the solution q
 We will measure the effect of each variable separately. We will generate 10 problem instances for each algorithm with each weight.
 
 \subsection{Robustness}
-First, we will try to answer the robustness (invariance to order of input items) of each algorithm. We will use default generator values mentioned above. We will generate 500 instances and calculate 10 permutations for each algorithm. We will calculate the variance in the elapsed time across the 10 permutations and take a mean across all instances.
+First, we will try to answer the robustness (invariance to order of input items) of each algorithm. We will use default generator values mentioned above. We will generate 500 instances and calculate 10 permutations for each algorithm. We will calculate the variance in the elapsed time across the 10 permutations and take a mean across all generated instances.
 
 \begin{table}[!htb]
 \centering
@@ -66,7 +66,7 @@ bruteforce   & 9.22061772 & 1.95676123 \\
 \caption{Mean of runtime (seconds) and runtime variance over 10 permutations}
 \end{table}
 
-It is not surprising, that the heuristic is extremely stable as it is basically just one pass over the items in the bag. I have expected that the algorithms such as branch\&bound and dynamic would be less robust as especially the first one depends on the order of items while pruning. Yet the dynamic algorithm seems to be not very robust as well.
+It is not surprising, that the heuristic is extremely stable as it is basically just one pass over the items in the bag. I have expected that the algorithms such as branch\&bound and dynamic would be less robust as especially the first one depends on the order of items while pruning. Yet the dynamic algorithm seems unstable (not robust to the item premutations) as well.
 
 It is surprising that the bruteforce algorithm shows such huge mean variance in the measured runtime. But it is also worth noting that the mean runtime for bruteforce was $9.22$ seconds while it was only $0.38$ and $0.006$ seconds for dynamic and branch\&bound respectively.
 
@@ -79,7 +79,7 @@ I would say, that since the measured metric was the runtime and the experiments 
 \begin{figure}[!htb]
 	\centering
   	\includegraphics[width=\textwidth]{images/pilot.png}
-	\caption{Correlation of the algorithm runtime to the change in parameters}
+	\caption{Correlation (absolute) of the algorithm runtime to the change in parameters}
 	\label{pilot_figure}
 \end{figure}
 
@@ -91,14 +91,14 @@ All variables were tested separately, 100 samples per each testing instance size
 
 \subsubsection{Weight Distribution (w\_dist)}
 
-As expected by the pilot experiments, the weight distribution does not heavily affect the elapsed time.
-
 \begin{figure}[!htb]
 	\centering
   	\includegraphics[width=\textwidth]{images/wdist.png}
 	\caption{Weight distribution [light, bal, heavy]}
 	\label{wdist}
 \end{figure}
+
+Weight distribution affects whether the majority of the items are light, heavy, or balanced. As indicated by the pilot experiments, the weight distribution (as seen in Figure \ref{wdist}) does not heavily the experiment runtime.
 
 \subsubsection{Price and Weight Correlation (pw\_corr)}
 
@@ -109,24 +109,38 @@ As expected by the pilot experiments, the weight distribution does not heavily a
 	\label{pwcorr}
 \end{figure}
 
+As shown in the Figure \ref{pwcorr}, dynamic programming isn't affected by the changing correlation between price and weight (\lstinline{pw_corr}). On the other hand, we can see that branch\&bound is affected strongly as the processing speed of the bags with correlated items is much slower. This is likely due to the pruning being less effective. 
+
+\clearpage
+
 \subsubsection{Capacity and Weight Ratio (cw\_ratio)}
+
+The \lstinline{cw_ratio} is defined as the ratio of max knapsack capacity to total weight. The pilot experiments had indicated a correlation between the runtime and this variable. Figure \ref{cwratio} sheds more light to this hypothesis. Both dynamic and branch\&bound algorithms are affected by the changing \lstinline{cw_ratio}.
 
 \begin{figure}[!htb]
 	\centering
   	\includegraphics[width=\textwidth]{images/cwratio.png}
-	\caption{Capacity and weight ratio}
+	\caption{Ratio of max knapsack capacity to total weight}
 	\label{cwratio}
 \end{figure}
+
+As seen from the Figure \ref{cwratio_relation}, the dynamic algorithm is strongly affected if \lstinline{cw_ratio} is closer to $1$. The relationship for the brach\&bound isn't linear. The algorithm is the fastest both, for bags which were on the sides of the spectrum.
 
 \begin{figure}[!htb]
 	\centering
   	\includegraphics[width=\textwidth]{images/cwratio_fixed.png}
-	\caption{Capacity / weight ratio for instance size 24}
-	\label{cwratio}
+	\caption{ratio of max knapsack capacity to total weight for instance size 24}
+	\label{cwratio_relation}
 \end{figure}
 
 
 \section{Discussion and Takeoffs}
+
+I've first ran the pilot experiments on the small data samples to detect potentially interesting relationships between generator hyperparameters and the experiment runtime. Based on this, I've explored the effects of the parameters on larger data samples as mentioned above to see the relationships in a better detail.
+
+One of the interesting takeoffs for me was the large variance in the brute-force algorithm when permuting the items. As the brute-force algorithm always searches through the full searchspace, the time taken should be very similar. My intuition about this is that this must be due to uneven CPU thread scheduling.
+
+Overall, I would say that this homework took a long time to create, yet I wish I was doing anything useful. Instead of just replicating the experiments that were done 1000 times before and don't benefit anyone in doing again in our homeworks.
 
 
 \end{document}

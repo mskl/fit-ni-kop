@@ -7,5 +7,5 @@
 \contentsline {subsection}{\numberline {3.3}Detailed Experiments}{3}{}%
 \contentsline {subsubsection}{\numberline {3.3.1}Weight Distribution (w\_dist)}{3}{}%
 \contentsline {subsubsection}{\numberline {3.3.2}Price and Weight Correlation (pw\_corr)}{3}{}%
-\contentsline {subsubsection}{\numberline {3.3.3}Capacity and Weight Ratio (cw\_ratio)}{3}{}%
-\contentsline {section}{\numberline {4}Discussion and Takeoffs}{3}{}%
+\contentsline {subsubsection}{\numberline {3.3.3}Capacity and Weight Ratio (cw\_ratio)}{4}{}%
+\contentsline {section}{\numberline {4}Discussion and Takeoffs}{4}{}%
