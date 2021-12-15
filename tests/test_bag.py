@@ -20,13 +20,12 @@ def test_bag_load(rawline, expected):
 
 def get_dataset(subsample=-1):
     data = load_bag_data("data/NK/NK20_inst.dat", "data/NK/NK20_sol.dat")
-    return [(x, y) for x, y in data if x.split(" ")[0] == "477"]
+    return [(x, y) for x, y in data[:20]]
 
 
 @pytest.mark.parametrize("bag_def, bag_sol", get_dataset())
-@pytest.mark.parametrize("optimizations", [None, {"residuals"}, {"weight"}, {"weight", "residuals"}])
-def test_bag_solve(bag_def, bag_sol, optimizations):
-    res = Bag.from_line(bag_def).solve_branch_bound(optimizations=optimizations)
+def test_bag_solve(bag_def, bag_sol):
+    res = Bag.from_line(bag_def).solve_branch_bound()
 
     iid, count, target_cost, target_items = parse_solution(bag_sol)
     assert res == target_cost

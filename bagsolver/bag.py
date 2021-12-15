@@ -1,25 +1,19 @@
-import random
-from typing import List, Union, Optional, Iterable
 from functools import lru_cache
 import numpy as np
 import math
 import copy
 
-from .item import Item
+from .base import BagBase
 
 
-class Bag:
-    def __init__(self, iid: int, capacity: int, min_cost: Union[int, float], items: List[Item]):
-        self.iid = iid
-        self.capacity = capacity
-        self.min_cost = min_cost
-        self.items = items
-        self.size = len(self.items)
+class Bag(BagBase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        self.best_solution = None
-        self.optimizations = None
         self.best_cost = None
+        self.optimizations = None
         self.proposal = None
+        self.best_solution = None
 
         self.initialize()
 
@@ -28,32 +22,6 @@ class Bag:
         self.optimizations = set()
         self.proposal = np.zeros(self.size)
         self.best_solution = np.zeros(self.size)
-
-    def shuffle(self) -> None:
-        random.shuffle(self.items)
-
-    @classmethod
-    def from_line(cls, line: str) -> "Bag":
-        parsed = [int(v) for v in line.strip().split(" ")]
-
-        min_cost = float("inf")
-        if len(parsed) % 2 == 0:
-            iid, count, capacity, min_cost, *items = parsed
-        else:
-            iid, count, capacity, *items = parsed
-
-        parsed_items = [
-            Item(weight, cost, index)
-            for index, (weight, cost)
-            in enumerate(zip(items[0::2], items[1::2]))
-        ]
-        return cls(iid, capacity, min_cost, parsed_items)
-
-    def evaluate(self, proposal: Iterable[bool]) -> (int, int):
-        selection = [i for (i, p) in zip(self.items, proposal) if p]
-        cost = sum(i.cost for i in selection)
-        weight = sum(i.weight for i in selection)
-        return cost, weight
 
     def solve_ftapas(self, epsilon: float):
         maxcost = max(self.items, key=lambda x: x.cost).cost
