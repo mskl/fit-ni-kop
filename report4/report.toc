@@ -1,0 +1,12 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Experiment Setting}{1}{}%
+\contentsline {section}{\numberline {2}Genetic Algorithm}{1}{}%
+\contentsline {subsection}{\numberline {2.1}Fitness}{1}{}%
+\contentsline {subsection}{\numberline {2.2}Random Initialization}{1}{}%
+\contentsline {subsection}{\numberline {2.3}Selection}{2}{}%
+\contentsline {subsection}{\numberline {2.4}Recombination}{2}{}%
+\contentsline {subsection}{\numberline {2.5}Mutation}{2}{}%
+\contentsline {section}{\numberline {3}Experiments}{2}{}%
+\contentsline {subsection}{\numberline {3.1}Pilot Experiments}{2}{}%
+\contentsline {subsection}{\numberline {3.2}Detailed Experiment}{3}{}%
+\contentsline {section}{\numberline {4}Discussion and Takeoffs}{4}{}%

@@ -43,10 +43,12 @@ class GeneticBagSolver(BagBase):
 			self.best_instance = p.copy()
 		return value
 
-	def new_instance_naive(self) -> np.ndarray:
-		return np.ones_like(self.v)
+	def new_instance_random_one(self) -> np.ndarray:
+		inst = np.zeros_like(self.v)
+		inst[np.random.randint(len(inst))] = 1
+		return inst
 
-	def new_instance_random(self) -> np.ndarray:
+	def new_instance_random_valid(self) -> np.ndarray:
 		"""Create a random binary vector that passes the capacity."""
 		proposal = np.zeros_like(self.v)
 		total_w = 0
@@ -97,8 +99,12 @@ class GeneticBagSolver(BagBase):
 
 		children = []
 		while len(children) < len(parents):
-			p_idx1 = np.searchsorted(cumm_fitness, np.random.randint(total_fitness))
-			p_idx2 = np.searchsorted(cumm_fitness, np.random.randint(total_fitness))
+			if total_fitness == 0:
+				p_idx1 = np.random.randint(len(parents))
+				p_idx2 = np.random.randint(len(parents))
+			else:
+				p_idx1 = np.searchsorted(cumm_fitness, np.random.randint(total_fitness))
+				p_idx2 = np.searchsorted(cumm_fitness, np.random.randint(total_fitness))
 			# NOTE: Parents can be same, but it's unlikely
 			children.append(self.recombine(parents[p_idx1], parents[p_idx2]))
 
@@ -107,13 +113,12 @@ class GeneticBagSolver(BagBase):
 
 	def new_pool_random(self) -> List[np.ndarray]:
 		"""Generate initial pool of random parents."""
-		return [self.new_instance_random() for i in range(self.batch_size)]
+		return [self.new_instance_random_valid() for i in range(self.batch_size)]
 
 	def new_pool_naive(self) -> List[np.ndarray]:
 		"""Generate initial pool of naive parents."""
-		return [self.new_instance_naive() for i in range(self.batch_size)]
+		return [self.new_instance_random_one() for i in range(self.batch_size)]
 
-	def pool_fitness(self, pool: List[np.ndarray]) -> (float, float, float):
+	def pool_fitness(self, pool: List[np.ndarray]) -> List[float]:
 		"""Return min, max, mean fitness of the pool"""
-		pool_fitness = [self.fitness_naive(i) for i in pool]
-		return np.min(pool_fitness), np.max(pool_fitness), np.mean(pool_fitness)
+		return [self.fitness_naive(i) for i in pool]
