@@ -20,7 +20,7 @@ def solve_instance(batch_size, mutation_rate, problem_path, init_type, fitness_t
     pool = solver.new_pool()
     solved_time = None
     start = time.time()
-    while (time.time() - start) < 2:
+    while (time.time() - start) < 3:
         pool = solver.genetic_iteration(pool)
         if solver.solved():
             solved_time = time.time() - start
@@ -28,10 +28,10 @@ def solve_instance(batch_size, mutation_rate, problem_path, init_type, fitness_t
     return batch_size, mutation_rate, problem_path, init_type, fitness_type, solved_time
 
 
-def run(n_workers: int = 32, subsample: int = 100) -> pd.DataFrame:
-    selected = glob.glob("data/wuf-N1/wuf50-201-N1/*")[:subsample]
+def run(n_workers: int = 32) -> pd.DataFrame:
+    selected = glob.glob("data/wuf-N1/wuf20-78-N1/*")[:128]
     tasks, records = [], []
-    CHUNKING = 1000
+    CHUNKING = 3000
 
     tasks = []
     for batch_size in [5, 10, 20, 40, 80, 160, 320, 640, 1280]:
@@ -49,8 +49,8 @@ def run(n_workers: int = 32, subsample: int = 100) -> pd.DataFrame:
                             }
                         )
     random.shuffle(tasks)
+    # Helps to clear memory between runs
     with tqdm(total=len(tasks)) as pbar:
-        # Helps to clear memory between runs
         for i in range(0, len(tasks), CHUNKING):
             futures = []
             chunk = tasks[i:i + CHUNKING]
@@ -71,13 +71,12 @@ def run(n_workers: int = 32, subsample: int = 100) -> pd.DataFrame:
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Solve experiment 3.")
+    parser = argparse.ArgumentParser(description="Solve experiment 5.")
     parser.add_argument("-w", "--workers", type=int, default=7)
-    parser.add_argument("-s", "--subsample", type=int, default=100)
 
     args = parser.parse_args()
 
-    df = run(args.workers, args.subsample)
-    dfname = "pilot5v2.csv"
+    df = run(args.workers)
+    dfname = "pilot5v3.csv"
     print(f"Saving results into {dfname}.")
     df.to_csv(dfname, index=False)

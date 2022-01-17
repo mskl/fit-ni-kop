@@ -1,13 +1,6 @@
-import glob
-import time
 import random
-from concurrent.futures import ProcessPoolExecutor, as_completed
-
 import numpy as np
 from typing import List, Tuple
-
-import pandas as pd
-from tqdm import tqdm
 
 from satsolver.instance import Instance
 
@@ -71,7 +64,6 @@ class GeneticSolver(Instance):
 		return np.where(mutation_mask == 0, p, -p)
 
 	def best_candidate(self, candidates: List[np.ndarray]) -> np.ndarray:
-		random.shuffle(candidates)
 		return max(candidates, key=self.fitness)
 
 	def recombine(self, p1: np.ndarray, p2: np.ndarray) -> np.ndarray:
