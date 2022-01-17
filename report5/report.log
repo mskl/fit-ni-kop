@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.10.7)  17 JAN 2022 01:12
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.10.7)  17 JAN 2022 02:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -310,15 +310,17 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 ]
-
-LaTeX Warning: Reference `pilot_naive' on page 2 undefined on input line 66.
-
-
-LaTeX Warning: Reference `pilot_random' on page 2 undefined on input line 68.
-
 File: images/pilot_counts_means.png Graphic file (type bmp)
 <images/pilot_counts_means.png>
-[2] [3] [4
+
+
+LaTeX Warning: Reference `pilot_naive' on page 2 undefined on input line 96.
+
+[2]
+
+LaTeX Warning: Reference `pilot_random' on page 3 undefined on input line 98.
+
+[3] [4
 
 ] (./report.aux)
 
@@ -326,12 +328,12 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 5721 strings out of 476919
- 92857 string characters out of 5821840
- 425361 words of memory out of 5000000
- 25669 multiletter control sequences out of 15000+600000
+ 5727 strings out of 476919
+ 92967 string characters out of 5821840
+ 428361 words of memory out of 5000000
+ 25675 multiletter control sequences out of 15000+600000
  406230 words of font info for 44 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 69i,6n,77p,555b,291s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,6n,77p,555b,853s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on report.pdf (4 pages).

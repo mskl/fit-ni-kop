@@ -1,3 +1,4 @@
+import random
 from concurrent.futures import as_completed, ProcessPoolExecutor
 from tqdm import tqdm
 import time
@@ -28,7 +29,7 @@ def solve_instance(batch_size, mutation_rate, problem_path, init_type, fitness_t
 
 
 def run(n_workers: int = 32, subsample: int = 100) -> pd.DataFrame:
-    selected = glob.glob("data/wuf-N1/wuf20-78-N1/*")[:subsample]
+    selected = glob.glob("data/wuf-N1/wuf50-201-N1/*")[:subsample]
     tasks, records = [], []
     CHUNKING = 1000
 
@@ -47,8 +48,9 @@ def run(n_workers: int = 32, subsample: int = 100) -> pd.DataFrame:
                                 "fitness_type": fitness_type
                             }
                         )
-    # Helps to clear memory between runs
+    random.shuffle(tasks)
     with tqdm(total=len(tasks)) as pbar:
+        # Helps to clear memory between runs
         for i in range(0, len(tasks), CHUNKING):
             futures = []
             chunk = tasks[i:i + CHUNKING]
@@ -76,6 +78,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     df = run(args.workers, args.subsample)
-    dfname = "pilot5.csv"
+    dfname = "pilot5v2.csv"
     print(f"Saving results into {dfname}.")
     df.to_csv(dfname, index=False)

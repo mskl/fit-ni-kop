@@ -71,6 +71,7 @@ class GeneticSolver(Instance):
 		return np.where(mutation_mask == 0, p, self.mask_inv(p))
 
 	def best_candidate(self, candidates: List[np.ndarray]) -> np.ndarray:
+		random.shuffle(candidates)
 		return max(candidates, key=self.fitness)
 
 	def recombine(self, p1: np.ndarray, p2: np.ndarray) -> np.ndarray:
@@ -81,7 +82,7 @@ class GeneticSolver(Instance):
 		c2 = self.mutate(mask_inv*p1 + mask_org*p2)
 		if self.solves(c1) or self.solves(c2):
 			return self.best_candidate([c1, c2])
-		return self.best_candidate([p1, p2])
+		return self.best_candidate([p1, p2, c1, c2])
 
 	def genetic_iteration(self, parents: List[np.ndarray]) -> List[np.ndarray]:
 		"""Use roulette wheel selection to generate the next batch of instances."""
