@@ -14,7 +14,7 @@
 \usepackage{booktabs}
 \usepackage{listings}
 
-\title{Combinatorial Optimization\\Homework 4 – Genetic Algorithm}
+\title{Combinatorial Optimization\\Homework 5 – 3SAT Genetic Algorithm}
 \author{Matyáš Skalický\\skalimat@fit.cvut.cz}
 
 \begin{document}
@@ -23,9 +23,12 @@
 \medskip
 
 \section{Experiment Setting}
-In this homework, we are solving the bound knapsack problem by using a black-box solver - genetic algorithm. We are using the instances of size 40 from the pre-calculated \emph{NK40} dataset.
+The problem of finding a solution to the boolean formula is called boolean satisfiability problem (SAT). In this homework, we are trying so solve a special class of SAT called \emph{weighted 3SAT}. In 3SAT, the boolean problem is presented in a conjunctive normal form where all clauses contain exactly three literals. Since the problem is weighted, we are trying to come up with a solution that satisfies the boolean formula while maximizing the sum of weights for the literals that are assigned as true.
 
-To make the measurements fair across different population sizes (also further called batch), each experiment was ran for \emph{3 seconds} of the CPU time and the best found solution for each bag was recorded.
+
+Cook-Levin theorem says that SAT is a \emph{NP-complete} problem.
+
+To make the measurements fair across different population sizes (also further called batch), each experiment was ran for \emph{2 seconds} of the CPU time.
 
 \section{Genetic Algorithm}
 
@@ -62,21 +65,8 @@ As described above, we are running each experiment for 3 seconds of the CPU time
 
 During the pilot experiments, we would like to determine the ideal mutation rate and batch size to solve the bag problem of instance size 40. We will also try to see, whether there is a notable difference between the random initialization strategy and the naive initialization strategy (which will produce much more spares initial instances).
 
-\begin{figure}[!htb]
-	\centering
-  	\includegraphics[width=\textwidth]{images/pilot_naive.png}
-	\caption{Naive Initialization; NK40 Dataset; 3s Runtime; 100 Instances Mean Relative Error}
-	\label{pilot_naive}
-\end{figure}
 
 As described before, the naive initialization produces very sparse bags. With very low mutation rate, there isn't enough diversity in the initial population pool to achieve good performance. As we can see in the Figure \ref{pilot_naive}, a small mutation rate is required. Interesting finding is that we are able to solve the problem even with a very small batch size. Even though the batch size is very small, the algorithm will be very fast. And it is able to go through many iterations before the time runs out.
-
-\begin{figure}[!htb]
-	\centering
-  	\includegraphics[width=\textwidth]{images/pilot_random.png}
-	\caption{Random Initialization; NK40 Dataset; 3s Runtime; 100 Instances Mean Relative Error}
-	\label{pilot_random}
-\end{figure}
 
 The random initialization contains fuller bags which contain a larger number of items. Figure \ref{pilot_random} shows, that even if the mutation rate is $0$, the algorithm achieves good results given large batch size. 
 
@@ -86,7 +76,7 @@ The random initialization strategy has worked slightly better than the naive str
 
 \begin{figure}[!htb]
 	\centering
-  	\includegraphics[width=\textwidth]{images/detail.png}
+  	\includegraphics[width=\textwidth]{images/pilot_counts_means.png}
 	\caption{Random Initialization; 3s Runtime; Instance Size 40}
 	\label{detail}
 \end{figure}
