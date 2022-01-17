@@ -8,7 +8,7 @@ import glob
 from satsolver.genetic import GeneticSolver
 
 
-def solve_instance(batch_size, mutation_rate, problem_path, init_type, fitness_type):
+def solve_instance(batch_size, mutation_rate, problem_path, init_type, fitness_type, dataset):
     solver = GeneticSolver.from_file(
         filepath=problem_path,
         batch_size=batch_size,
@@ -25,11 +25,14 @@ def solve_instance(batch_size, mutation_rate, problem_path, init_type, fitness_t
         if solver.solved():
             solved_time = time.time() - start
             break
-    return batch_size, mutation_rate, problem_path, init_type, fitness_type, solved_time
+    return batch_size, mutation_rate, problem_path, init_type, fitness_type, dataset, solved_time
 
 
-def run(n_workers: int = 32) -> pd.DataFrame:
-    selected = glob.glob("data/wuf-N1/wuf20-78-N1/*")[:128]
+def run(n_workers: int) -> pd.DataFrame:
+    small = glob.glob("data/wuf-N1/wuf20-78-N1/*")[:100]
+    medium = glob.glob("data/wuf-N1/wuf50-201-N1/*")[:100]
+    large = glob.glob("data/wuf-N1/wuf75-310-N1/*")[:100]
+
     tasks, records = [], []
     CHUNKING = 3000
 
@@ -38,16 +41,19 @@ def run(n_workers: int = 32) -> pd.DataFrame:
         for mutation_rate in [0, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32]:
             for init_type in ["allfalse", "uniform"]:
                 for fitness_type in ["sum_or_nothing", "correct_count"]:
-                    for problem_path in selected:
-                        tasks.append(
-                            {
-                                "batch_size": batch_size,
-                                "mutation_rate": mutation_rate,
-                                "problem_path": problem_path,
-                                "init_type": init_type,
-                                "fitness_type": fitness_type
-                            }
-                        )
+                    for dataset in ["small", "medium", "large"]:
+                        dataset_files = {"small": small, "medium": medium, "large": large}
+                        for problem_path in dataset_files[dataset]:
+                            tasks.append(
+                                {
+                                    "batch_size": batch_size,
+                                    "mutation_rate": mutation_rate,
+                                    "problem_path": problem_path,
+                                    "init_type": init_type,
+                                    "fitness_type": fitness_type,
+                                    "dataset": dataset,
+                                }
+                            )
     random.shuffle(tasks)
     # Helps to clear memory between runs
     with tqdm(total=len(tasks)) as pbar:
@@ -64,7 +70,7 @@ def run(n_workers: int = 32) -> pd.DataFrame:
 
     return pd.DataFrame(
         records,
-        columns="batch_size,mutation_rate,problem_path,init_type,fitness_type,solved_time".split(",")
+        columns="batch_size,mutation_rate,problem_path,init_type,fitness_type,dataset,solved_time".split(",")
     )
 
 
@@ -73,10 +79,10 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Solve experiment 5.")
     parser.add_argument("-w", "--workers", type=int, default=7)
+    parser.add_argument("-n", "--name", type=str)
 
     args = parser.parse_args()
 
     df = run(args.workers)
-    dfname = "pilot5v3.csv"
-    print(f"Saving results into {dfname}.")
-    df.to_csv(dfname, index=False)
+    print(f"Saving results into {args.name}.")
+    df.to_csv(args.name, index=False)
