@@ -87,17 +87,16 @@ As described above, we are running each experiment for $2$ seconds of the CPU ti
 During the pilot experiments, we would like to determine the ideal combination of hyperparameters (batch size, mutation rate, initialization strategy and fitness function) to solve the weighted 3SAT problem. We will start with smaller instances of \lstinline{wuf20-78} in order to make the pilot experiments a bit faster.
 
 
-
 \begin{figure}[!htb]
 	\centering
   	\includegraphics[width=\textwidth]{images/pilot_counts_means.png}
-	\caption{Random Initialization; 3s Runtime; Instance Size 40}
-	\label{detail}
+	\caption{Median runtime (right) and number of found solution (left) out of 100 instances in 2 seconds of CPU runtime. Sum or nothing fitness function (top) and correct count (bottom).}
+	\label{pilot_counts_means}
 \end{figure}
 
-As described before, the naive initialization produces very sparse bags. With very low mutation rate, there isn't enough diversity in the initial population pool to achieve good performance. As we can see in the Figure \ref{pilot_naive}, a small mutation rate is required. Interesting finding is that we are able to solve the problem even with a very small batch size. Even though the batch size is very small, the algorithm will be very fast. And it is able to go through many iterations before the time runs out.
+% As described before, the naive initialization produces very sparse bags. With very low mutation rate, there isn't enough diversity in the initial population pool to achieve good performance. As we can see in the Figure \ref{pilot_naive}, a small mutation rate is required. Interesting finding is that we are able to solve the problem even with a very small batch size. Even though the batch size is very small, the algorithm will be very fast. And it is able to go through many iterations before the time runs out.
 
-The random initialization contains fuller bags which contain a larger number of items. Figure \ref{pilot_random} shows, that even if the mutation rate is $0$, the algorithm achieves good results given large batch size. 
+We can see the results of different strategies in the Figure \ref{pilot_counts_means}. We can see that generally the algorithm works better with larger batch sizes and smaller mutation rate. Batch size of $320$ and mutation rate of $4 \%$ seems to be a sweet spot.
 
 \subsection{Detailed Experiment}
 

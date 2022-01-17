@@ -68,7 +68,7 @@ class GeneticSolver(Instance):
 	def mutate(self, p: np.ndarray) -> np.array:
 		"""Mutate the p array with the preset probability."""
 		mutation_mask = (np.random.rand(len(p)) < self.mutation_rate).astype("int8")
-		return np.where(mutation_mask == 0, p, self.mask_inv(p))
+		return np.where(mutation_mask == 0, p, -p)
 
 	def best_candidate(self, candidates: List[np.ndarray]) -> np.ndarray:
 		random.shuffle(candidates)
