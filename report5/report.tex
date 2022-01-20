@@ -14,6 +14,11 @@
 \usepackage{booktabs}
 \usepackage{listings}
 
+
+\usepackage{subcaption}
+\usepackage{graphicx}
+
+
 \title{Combinatorial Optimization\\Homework 5 – 3SAT Genetic Algorithm}
 \author{Matyáš Skalický\\skalimat@fit.cvut.cz}
 
@@ -25,7 +30,7 @@
 \section{Experiment Setting}
 The problem of finding a solution to the boolean formula is called boolean satisfiability problem (SAT). In this homework, we are trying so solve a special class of SAT called \emph{Weighted 3SAT}. In 3SAT, the boolean problem is presented in a conjunctive normal form where all clauses contain exactly three literals. Since the problem is weighted, we are trying to come up with a solution that satisfies the boolean formula while maximizing the sum of weights for the literals that are assigned as true.
 
-To make the measurements fair across different population sizes (further, we also call the population a batch), each experiment is ran for \emph{$2$ seconds} of the CPU time. It is possible that for some settings, the SAT problem isn't solved in this time.
+To make the measurements fair across different population sizes (further, we also call the population a batch), each experiment is ran for \emph{$3$ seconds} of the CPU time. It is possible that for some settings, the SAT problem isn't solved in this time.
 
 The homework was programmed in Python. To speed-up the computation, as many computations as possible were implemented as vectorized numpy operation. Also, the experiments were ran in parallel on a server with $40$ cores to make the experiments feasible.
 
@@ -34,10 +39,10 @@ The homework was programmed in Python. To speed-up the computation, as many comp
 The implemented genetic algorithm solver is parametrized mainly by 4 hyperparameters:
 
 \begin{description}
-	\item[Mutation Rate]{Probability of randomly flipping a literal's value.}
-	\item[Batch Size]{Size of the population.}
-	\item[Init Type]{How each individual is initialized.}
-	\item[Fitness Type]{Which fitness function is used.}
+	\item[mutation rate]{Probability of randomly flipping a literal's value.}
+	\item[batch size]{Size of the population.}
+	\item[init type]{How each individual is initialized.}
+	\item[fitness type]{Which fitness function is used.}
 \end{description}
 
 Generally speaking, we first randomly spawn a pool of instances. Before the CPU time runs out, we repeatedly take a batch of parent instances, and by using selection, recombination and mutation, we create a pool of children of the same size. The detailed steps are described below.
@@ -64,7 +69,13 @@ Figuring out the fitness score in genetic algorithms is one of the hardest tasks
 
 \subsection{Random Initialization}
 
-I've implemented 2 initialization strategies for instance intialization. The \emph{all false} strategy initialized all literals as false. The \emph{uniform} strategy randomly selects how each literal is initialized.
+I've implemented 2 initialization strategies for instance initialization.
+
+\begin{description}
+	\item[all false] All literals are initialized as false. This is not an optimal initialization strategy for genetic algorithms as the initial diversity is just non-existent and all of the variation must be introduced by mutation.
+	\item[uniform] Randomly select value of each literal. My hypothesis is, that this will be a better initialization strategy than \emph{all false}.
+\end{description}
+
 
 \subsection{Selection}
 
@@ -84,31 +95,70 @@ As described above, we are running each experiment for $2$ seconds of the CPU ti
 
 \subsection{Pilot Experiments}
 
-During the pilot experiments, we would like to determine the ideal combination of hyperparameters (batch size, mutation rate, initialization strategy and fitness function) to solve the weighted 3SAT problem. We will start with smaller instances of \lstinline{wuf20-78} in order to make the pilot experiments a bit faster.
+During the pilot experiments, we would like to determine the ideal combination of hyperparameters (batch size, mutation rate, initialization strategy and fitness function) to solve the weighted 3SAT problem. My hypothesis is, that the uniform (random) initialization will work better than setting all instances as false. Also I assume that the the fitness function which considers the count of correctly assigned clauses should perform significantly better as it pushes the genetic algorithm towards improvements rather than blindly guessing and mutating before a feasible solution is found.
 
+Pilot experiments were performed on subsample of $100$ instances for maximum runtime of $3$ seconds. Although the genetic algorithm is randomized, we can assume that the aggregate results should have sufficient statistical power.
 
 \begin{figure}[!htb]
-	\centering
-  	\includegraphics[width=\textwidth]{images/pilot_counts_means.png}
-	\caption{Median runtime (right) and number of found solution (left) out of 100 instances in 2 seconds of CPU runtime. Sum or nothing fitness function (top) and correct count (bottom).}
-	\label{pilot_counts_means}
+\centering
+\begin{subfigure}{.49\linewidth}
+    \includegraphics[width=\linewidth]{images/pilot_allfalse_correct_count.png}
+    \caption{all-false init, correct count fitness func.}
+\end{subfigure}
+\begin{subfigure}{.49\linewidth}
+    \includegraphics[width=\linewidth]{images/pilot_allfalse_sum_or_nothing.png}
+    \caption{all-false init, sum or nothing fitness func.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{.49\linewidth}
+    \includegraphics[width=\linewidth]{images/pilot_uniform_correct_count.png}
+    \caption{uniform init, correct count fitness func.}
+\end{subfigure}
+\begin{subfigure}{.49\linewidth}
+    \includegraphics[width=\linewidth]{images/pilot_uniform_sum_or_nothing.png}
+    \caption{uniform init, sum or nothing fitness func.}
+\end{subfigure}        
+\caption{Pilot experiments on the \lstinline{wuf20-78-N1} dataset. Left side contains number of successfully solved 3SAT instances out of 100 with maximum of 3s CPU runtime. Right side shows mean runtime until the instance was solved.}
+\label{fig:small:pilot}
 \end{figure}
+
+Results of the pilot experiments can be seen in the Figure \ref{fig:small:pilot}. As expected, we can see that the genetic algorithms benefit from the initial variability of random initialization. In general, the correct count fitness function led to a more stable behavior and more successfully solved instances.
+
+We can see, that for the correct-count fitness function, the best settings are when the batch size is relatively small ($20$) and mutation fairly large ($8\%$).
+
+\begin{figure}[!htb]
+    \includegraphics[width=\linewidth]{images/pilot_medium_uniform_correct_count.png}
+    \caption{Dataset \lstinline{wuf50-0931}. Correct count fitness function with uniform initialization. Maximum 3s runtime. Left side shows number of solved instances, right mean runtime before the instance was solved.}
+    \label{fig:pilot:mid}
+\end{figure}
+
+For the dataset with larger instances (\lstinline{wuf50-0931}), we are going to see the results for the best combination mentioned above. Results can be seen in the figure \ref{fig:pilot:mid}. Compared to the smaller dataset, more bigger instances profited from larger batch size, but overall, the hyperparameter setting of $8\%$ mutation and batch size of $40$ still holds.
+
+
+%For a knapsack problem, the ideal setting was a small mutation rate (around 3\%) and a moderate batch size. 
 
 % As described before, the naive initialization produces very sparse bags. With very low mutation rate, there isn't enough diversity in the initial population pool to achieve good performance. As we can see in the Figure \ref{pilot_naive}, a small mutation rate is required. Interesting finding is that we are able to solve the problem even with a very small batch size. Even though the batch size is very small, the algorithm will be very fast. And it is able to go through many iterations before the time runs out.
 
-We can see the results of different strategies in the Figure \ref{pilot_counts_means}. We can see that generally the algorithm works better with larger batch sizes and smaller mutation rate. Batch size of $320$ and mutation rate of $4 \%$ seems to be a sweet spot.
-
 \subsection{Detailed Experiment}
 
-The random initialization strategy has worked slightly better than the naive strategy. The best set of hyperarameters would be batch size of $320$ and mutation rate of $0.02$ (2\%). We will now look in a finer detail at the fitness score over time for the best obtained hyperparameter combination.
+After selecting the hyperparameters, we are going to observe how the algorithm performs through different generations.
 
-As we can see in the Figure \ref{detail}, for the instance above, the ideal solution was found just after $1$ second. Yet, we can see that the mean relative bag value across the population is still going up. It however levels after $2$ seconds.
+\begin{figure}[!htb]
+    \includegraphics[width=\linewidth]{images/medium_side_by_side.png}
+    \caption{Example from dataset \lstinline{wuf50-201-N1}. Correct count fitness function with uniform initialization. Left side shows the fitness before the solution is found. Right after the solution was found.}
+    \label{fig:example:runtime:sidebyside}
+\end{figure}
 
-\clearpage
+Example run is shown in the figure \ref{fig:example:runtime:sidebyside}. We can immediately see how the optimization performs in different optimization modes - before the solution was found (left), the fitness score progresses as better solutions are rewarded better scores. On the right, we can see the same optimization problem after a solution was found. Since we use the weighted sum of all of the correct clauses.
+
+It is worth noting, that the improvements after a solution was found are rather sparse. This of course highly depends on the weighting of the individual clauses as the algorithm can get stuck in a local minima easily.
+
 \section{Discussion and Takeoffs}
 
-Fourth homework was much more fun compared to the previous one. Genetic algorithms are one of my favorite black-box methods and even though I've implemented them several times, I still had fun applying it on the knapsack problem.
+Fifth homework (and also the fourth) was much more fun compared to the previous ones. Genetic algorithms are one of my favorite black-box methods and even though I've implemented them several times, I still had fun applying it on the knapsack problem and now on the 3SAT.
 
-There was one interesting takeaway that came from the way I measured the experiment in the pilot phase (fixed amount of CPU time). The algorithm was able to find a good solution even with a very small population size of $5$ given that the mutation was turned on and was small. This is because the algorithm is able to go through a large amount of iterations before the time runs out as opposed to the large populations. But this relates to the NK algorithm and the knapsack problem itself.
+To make the solution as fast as possible, I have tried to write as many computations as vectorized numpy matrix multiplications. This has ensured that the runtime would be feasible. For the pilot experiments, I ran them in parallel on a 40-core server to get to the results faster.
+
+Compared to the knapsack problem where finding a solution is trivial, from my perspective, genetic algorithms seem less usable for weighted 3SAT. They are effective at finding a solution, but it is difficult to design a fitness function that motivates the algorithm to learn before, and also after a feasible solution was found. But finding the best proxy function is perhaps always the most challenging part on implementing genetic algorithms.
 
 \end{document}

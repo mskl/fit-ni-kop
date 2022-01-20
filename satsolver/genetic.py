@@ -127,6 +127,10 @@ class GeneticSolver(Instance):
 		"""Return values of fitness for all elements in pool"""
 		return [self.fitness(i) for i in pool]
 
+	def pool_solved(self, pool: List[np.ndarray]) -> List[bool]:
+		"""For each value in pool, return if solved or not."""
+		return [self.solves(_) for _ in pool]
+
 	@staticmethod
 	def pool_stats(pf: List[float]) -> Tuple[float, float, float, float]:
 		"""Returns stats in form of min, max, mean, median"""

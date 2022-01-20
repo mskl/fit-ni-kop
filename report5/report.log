@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.10.7)  17 JAN 2022 02:52
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.10.7)  20 JAN 2022 01:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -231,28 +231,28 @@ File: l3backend-xetex.def 2021-03-18 L3 backend support: XeTeX
 ) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
-0.
+5.
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -293,11 +293,11 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count283
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 21.
+(Font)              <12> on input line 26.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 21.
+(Font)              <8> on input line 26.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 21.
+(Font)              <6> on input line 26.
 (./report.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 4.
@@ -309,27 +309,27 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
  [1
 
-]
-File: images/pilot_counts_means.png Graphic file (type bmp)
-<images/pilot_counts_means.png>
- [2]
-
-LaTeX Warning: Reference `detail' on page 3 undefined on input line 105.
-
-[3] [4
-
-] (./report.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+] [2]
+File: images/pilot_allfalse_correct_count.png Graphic file (type bmp)
+<images/pilot_allfalse_correct_count.png>
+File: images/pilot_allfalse_sum_or_nothing.png Graphic file (type bmp)
+<images/pilot_allfalse_sum_or_nothing.png>
+File: images/pilot_uniform_correct_count.png Graphic file (type bmp)
+<images/pilot_uniform_correct_count.png>
+File: images/pilot_uniform_sum_or_nothing.png Graphic file (type bmp)
+<images/pilot_uniform_sum_or_nothing.png>
+File: images/pilot_medium_uniform_correct_count.png Graphic file (type bmp)
+<images/pilot_medium_uniform_correct_count.png>
+File: images/medium_side_by_side.png Graphic file (type bmp)
+<images/medium_side_by_side.png>
+ [3] [4] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 5726 strings out of 476919
- 92960 string characters out of 5821840
- 428361 words of memory out of 5000000
- 25674 multiletter control sequences out of 15000+600000
- 406230 words of font info for 44 fonts, out of 8000000 for 9000
+ 5767 strings out of 476919
+ 94460 string characters out of 5821840
+ 429357 words of memory out of 5000000
+ 25708 multiletter control sequences out of 15000+600000
+ 406238 words of font info for 45 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 69i,6n,77p,533b,853s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 69i,10n,77p,604b,1164s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on report.pdf (4 pages).
